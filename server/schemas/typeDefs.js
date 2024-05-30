@@ -6,10 +6,18 @@ const typeDefs = gql`
 	_id: ID
 	username: String
 	email: String
+	scores: [Score]
+  }
+
+  type Score {
+	_id: ID
+	score: Int
+	username: String
   }
 
   type Query {
 	allUsers: [User]
+	allScores: [Score]
   }
 `;
 

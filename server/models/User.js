@@ -18,7 +18,12 @@ const userSchema = new Schema(
 	  type: String,
 	  required: true,
 	},
-	scores: []
+	scores: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Score',
+		}
+	]
   },
 );
 
