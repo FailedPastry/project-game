@@ -14,6 +14,11 @@ const userSchema = new Schema(
       unique: true,
       match: [/.+@.+\..+/, 'Must use a valid email address'],
     },
+	password: {
+	  type: String,
+	  required: true,
+	},
+	scores: []
   },
 );
 
