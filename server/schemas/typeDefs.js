@@ -38,7 +38,7 @@ const typeDefs = gql`
 	login(email: String!, password: String!): Auth
 	updateUser(userId: ID!, username: String!, email: String!, password: String!): User
 	deleteUser(userId: ID!): User
-	addScore(score: Int!, username: String!): Score
+	addScore(userId: ID!, score: Int!): User
 	deleteScore(scoreId: ID!): Score
 	addFavGame(image: String!): GameBanner
 	deleteFavGame(gameId: ID!): GameBanner
