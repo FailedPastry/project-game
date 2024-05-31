@@ -2,6 +2,14 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   # Define a type for your data
+
+  # Set up an Auth type to handle returning data from a profile creating or user login
+  type Auth {
+    token: ID!
+    user: User
+  }
+
+
   type User {
 	_id: ID
 	username: String
@@ -26,10 +34,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
-	addUser(username: String!, email: String!, password: String!): User
-	login(email: String!, password: String!): User
-	logout: User
-	updateUser(username: String, email: String, password: String): User
+	addUser(username: String!, email: String!, password: String!): Auth
+	login(email: String!, password: String!): Auth
+	updateUser(userId: ID!, username: String!, email: String!, password: String!): User
 	deleteUser(userId: ID!): User
 	addScore(score: Int!, username: String!): Score
 	deleteScore(scoreId: ID!): Score
