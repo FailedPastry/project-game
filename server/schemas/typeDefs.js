@@ -21,6 +21,7 @@ const typeDefs = gql`
 	_id: ID
 	score: Int
 	username: String
+	userId: ID
   }
 
   type GameBanner {
@@ -31,6 +32,10 @@ const typeDefs = gql`
   type Query {
 	allUsers: [User]
 	allScores: [Score]
+	me(userId: ID!): User
+	user(userId: ID!): User
+	userScores(userId: ID!): [Score]
+
   }
 
   type Mutation {

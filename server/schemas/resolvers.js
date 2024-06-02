@@ -9,6 +9,15 @@ const resolvers = {
 		allScores: async () => {
 			return await Score.find();
 		},
+		me: async (parent, { userId }) => {
+			return await User.findById(userId).populate('scores');
+		},
+		user: async (parent, { userId }) => {
+			return await User.findById(userId).populate('scores');
+		},
+		userScores: async (parent, { userId }) => {
+			return await Score.find({ userId: userId }).sort({ score: -1 });
+		}
 	},
 
 	Mutation: {
@@ -68,7 +77,7 @@ const resolvers = {
 				throw new Error('Cannot find user with this id!');
 			}
 
-			const newScore = await Score.create({ score, username: user.username });
+			const newScore = await Score.create({ score, username: user.username, userId: userId });
 
 			const updatedUser = await User.findByIdAndUpdate(
 				userId,
