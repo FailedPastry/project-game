@@ -60,3 +60,17 @@ export const DELETE_SCORE = gql`
 	}
   }
 `;
+
+export const ADD_GAME = gql`
+	mutation {
+		addGame(title: "Game Title", bannerImg: "image.jpg", devs: ["userId1", "userId2"]) {
+			_id
+			title
+			bannerImg
+			devs {
+				_id
+				username
+			}
+		}
+	}
+`;

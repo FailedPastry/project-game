@@ -6,27 +6,31 @@ const typeDefs = gql`
   # Set up an Auth type to handle returning data from a profile creating or user login
   type Auth {
     token: ID!
-    user: User
+    user: User!
   }
 
 
   type User {
-	_id: ID
-	username: String
-	email: String
+	_id: ID!
+	username: String!
+	email: String!
 	scores: [Score]
+	favGame: Game
+	games: [Game]
   }
 
   type Score {
-	_id: ID
-	score: Int
-	username: String
-	userId: ID
+	_id: ID!
+	score: Int!
+	username: String!
+	userId: ID!
   }
 
-  type GameBanner {
-	_id: ID
-	image: String
+  type Game {
+	_id: ID!
+	title: String!
+	bannerImg: String
+	devs: [User]
    }
 
   type Query {
@@ -45,9 +49,7 @@ const typeDefs = gql`
 	deleteUser(userId: ID!): User
 	addScore(userId: ID!, score: Int!): User
 	deleteScore(scoreId: ID!): Score
-	addFavGame(image: String!): GameBanner
-	deleteFavGame(gameId: ID!): GameBanner
-	updateFavGame(gameId: ID!, image: String!): GameBanner
+	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
 	
 
 

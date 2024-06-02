@@ -16,11 +16,25 @@ const Profile = () => {
 
 	console.log(dataScores);
 
+	if (loadingMe || loadingScores) {
+		return <div>Loading...</div>
+	}
+
+	if (errorMe || errorScores) {
+		return <div>Error</div>
+	}
+
+	if (!dataMe || !dataScores) {
+		return <div>No data</div>
+	}
+
+	// if (dataScores)
+
 	return (
 		<div className="profile">
 			<h2>Profile</h2>
 			<div className='avatar'>
-				<img src="" alt='avatar' />
+				<img src="/img/profile.png" alt='avatar' />
 				<h2>{dataMe?.me?.username || "username"}</h2>
 			</div>
 			<div className="favGame">
@@ -28,13 +42,13 @@ const Profile = () => {
 			</div>
 			<div className="highScores">
 				<div className="highScore1">
-					{dataScores?.userScores[0].score}
+					{dataScores?.userScores[0]?.score || 0}
 				</div>
 				<div className="highScore2">
-
+					{dataScores?.userScores[1]?.score || 0}
 				</div>
 				<div className="highScore3">
-
+					{dataScores?.userScores[2]?.score || 0}
 				</div>
 			</div>
 			<div className="bio">

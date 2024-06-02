@@ -1,4 +1,4 @@
-const { User, Score } = require('../models');
+const { User, Score, Game } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -91,6 +91,16 @@ const resolvers = {
 		deleteScore: async (parent, { scoreId }) => {
 			const score = await Score.findOneAndDelete({ _id: scoreId });
 			return score;
+		},
+
+		addGame: async (parent, { title, bannerImg, devs }) => {
+			const devUsers = await User.find({ _id: { $in: devs } });
+			const newGame = await Game.create({ title, bannerImg, devs: devUsers.map(user => user._id) });
+		  
+			// Populate the devs field with user data before returning the game
+			const populatedGame = await Game.findById(newGame._id).populate('devs').exec();
+		  
+			return populatedGame;
 		}
 	}
   };

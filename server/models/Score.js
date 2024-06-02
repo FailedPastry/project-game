@@ -15,6 +15,11 @@ const scoreSchema = new Schema(
 	  ref: 'User',
 	  required: true,
 	},
+	gameId: {
+	  type: Schema.Types.ObjectId,
+	  ref: 'Game',
+	  required: true,
+	},
   },
 );
 
