@@ -6,31 +6,43 @@ const typeDefs = gql`
   # Set up an Auth type to handle returning data from a profile creating or user login
   type Auth {
     token: ID!
-    user: User
+    user: User!
   }
 
 
   type User {
-	_id: ID
-	username: String
-	email: String
+	_id: ID!
+	username: String!
+	email: String!
 	scores: [Score]
+	favGame: Game
+	games: [Game]
   }
 
   type Score {
-	_id: ID
-	score: Int
-	username: String
+	_id: ID!
+	score: Int!
+	user: User
+	game: Game
   }
 
-  type GameBanner {
-	_id: ID
-	image: String
+  type Game {
+	_id: ID!
+	title: String!
+	bannerImg: String
+	devs: [User]
    }
 
   type Query {
 	allUsers: [User]
 	allScores: [Score]
+	allGames: [Game]
+	singleGame(gameId: ID!): Game
+	me(userId: ID!): User
+	user(userId: ID!): User
+	userScores(userId: ID!): [Score]
+
+
   }
 
   type Mutation {
@@ -38,11 +50,9 @@ const typeDefs = gql`
 	login(email: String!, password: String!): Auth
 	updateUser(userId: ID!, username: String!, email: String!, password: String!): User
 	deleteUser(userId: ID!): User
-	addScore(userId: ID!, score: Int!): User
+	addScore(userId: ID!, score: Int!, gameId: ID!): Score
 	deleteScore(scoreId: ID!): Score
-	addFavGame(image: String!): GameBanner
-	deleteFavGame(gameId: ID!): GameBanner
-	updateFavGame(gameId: ID!, image: String!): GameBanner
+	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
 	
 
 

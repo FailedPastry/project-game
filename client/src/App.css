@@ -1,0 +1,7 @@
+* {
+ 	margin: 10px
+}
+
+.board_entry {
+	border: 1px solid black;
+}

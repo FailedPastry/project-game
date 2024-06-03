@@ -23,6 +23,16 @@ const userSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'Score',
 		}
+	],
+	favGame:{
+		type: Schema.Types.ObjectId,
+		ref: 'Game',
+	},
+	games: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Game',
+		}
 	]
   },
 );
