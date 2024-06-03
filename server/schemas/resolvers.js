@@ -47,8 +47,41 @@ const resolvers = {
 		},
 
 		deleteUser: async (parent, { userId }) => {
-			const user = await User.findOneAndDelete({ _id: userId });
-			return user;
+			const user = await User.findById(userId);
+
+			if (!user) {
+				throw new Error('Cannot find user with this id!');
+			}
+
+			await Score.deleteMany({ username: user.username });
+
+			const deletedUser = await User.findByIdAndDelete(userId);
+
+			return deletedUser;
+		},
+
+		addScore: async (parent, { userId, score }) => {
+
+			const user = await User.findById(userId);
+
+			if (!user) {
+				throw new Error('Cannot find user with this id!');
+			}
+
+			const newScore = await Score.create({ score, username: user.username });
+
+			const updatedUser = await User.findByIdAndUpdate(
+				userId,
+				{ $push: { scores: newScore._id } },
+				{ new: true }
+			).populate('scores');
+
+			return updatedUser;
+		},
+
+		deleteScore: async (parent, { scoreId }) => {
+			const score = await Score.findOneAndDelete({ _id: scoreId });
+			return score;
 		}
 	}
   };
