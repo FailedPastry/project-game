@@ -1,0 +1,114 @@
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000; /* Black background for the game */
+    color: #fff; /* White text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    width: 100%;
+    background-color: #222;
+    padding: 1rem;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #444;
+  }
+  
+  /* Game container */
+  .game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #111; /* Dark background for the game area */
+    border: 2px solid #fff;
+    margin-top: 2rem;
+  }
+  
+  /* Player ship */
+  .player {
+    position: absolute;
+    bottom: 20px; /* 20px from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #0f0; /* Green color for the player ship */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  /* Enemy invaders */
+  .invader {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #f00; /* Red color for the invaders */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  /* Bullets */
+  .bullet {
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    background-color: #ff0; /* Yellow color for the bullets */
+    border-radius: 2px; /* Rounded corners */
+  }
+  
+  /* Animations */
+  @keyframes move-bullet {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-600px);
+    }
+  }
+  
+  @keyframes move-invader {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(200px);
+    }
+  }
+  
+  .bullet {
+    animation: move-bullet 1s linear infinite;
+  }
+  
+  .invader {
+    animation: move-invader 2s linear infinite;
+  }
+  
+  /* Game over text */
+  .game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: #f00; /* Red color for game over text */
+    display: none; /* Hidden by default */
+  }
+  
+  /* Utility classes */
+  .hidden {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }  
