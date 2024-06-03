@@ -1,61 +1,62 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_ME, GET_USER_SCORES } from '../utils/queries';
+import { useParams } from 'react-router-dom';
+
+import { GET_SINGLE_USER } from '../utils/queries';
 import Auth from '../utils/auth';
+import PrivateProfileSection from '../components/PrivateProfileSection';
 
 const Profile = () => {
 
-	const profile = Auth.getProfile();
-	console.log(profile);
+	const myProfile = Auth.getProfile();
+	console.log("My profile: ");
+	console.log(myProfile);
 
-	console.log(profile.data._id);
+	const { userId } = useParams();
+	console.log("User id: " + userId);
 
-	const { loading: loadingMe, data: dataMe, error: errorMe } = useQuery(GET_ME, {
-		variables: { userId: Auth.getProfile().data._id },
+	const currentProfile = userId || myProfile.data._id;
+
+	console.log("Current profile: " + currentProfile);
+
+	const { loading, data } = useQuery(GET_SINGLE_USER, {
+		variables: { userId: currentProfile }
 	});
 
-	console.log(dataMe);
-
-	const { loading: loadingScores, data: dataScores, error: errorScores } = useQuery(GET_USER_SCORES, { variables: { userId: Auth.getProfile().data._id } });
-
-	console.log(dataScores);
-
-	if (loadingMe || loadingScores) {
-		return <div>Loading...</div>
+	if (loading) {
+		return <div>Loading...</div>;
 	}
 
-	if (errorMe || errorScores) {
-		return <div>Error</div>
+	if (!data) {
+		return <div>No data</div>;
 	}
 
-	if (!dataMe || !dataScores) {
-		return <div>No data</div>
-	}
+	console.log(data);
 
-	// if (dataScores)
+	const sortedScores = data.user.scores.slice().sort((a, b) => b.score - a.score);
 
 	return (
 		<div className="profile">
 			<h2>Profile</h2>
 			<div className='avatar'>
 				<img src="/img/profile.png" alt='avatar' />
-				<h2>{dataMe?.me?.username || "username"}</h2>
+				<h2>{data?.user?.username || "username"}</h2>
 			</div>
 			<div className="favGame">
 
 			</div>
 			<div className="highScores">
 				<div className="highScore1">
-					{dataScores?.userScores[0]?.game?.title || null}
-					{dataScores?.userScores[0]?.score || null}
+					{sortedScores[0]?.game?.title || "Game"}:
+					{sortedScores[0]?.score || 0}
 				</div>
 				<div className="highScore2">
-					{dataScores?.userScores[1]?.game?.title || null}
-					{dataScores?.userScores[1]?.score || null}
+					{sortedScores[1]?.game?.title || "Game"}:
+					{sortedScores[1]?.score || 0}
 				</div>
 				<div className="highScore3">
-					{dataScores?.userScores[2]?.game?.title || null}
-					{dataScores?.userScores[2]?.score || null}
+					{sortedScores[2]?.game?.title || "Game"}:
+					{sortedScores[2]?.score || 0}
 				</div>
 			</div>
 			<div className="bio">
@@ -64,7 +65,11 @@ const Profile = () => {
 			<div className="links">
 				
 			</div>
+			{myProfile.data._id === currentProfile && <PrivateProfileSection /> ? 
+				<PrivateProfileSection /> : null
+			}
 		</div>
+
 	);
 }
 

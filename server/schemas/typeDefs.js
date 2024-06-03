@@ -53,6 +53,8 @@ const typeDefs = gql`
 	addScore(userId: ID!, score: Int!, gameId: ID!): Score
 	deleteScore(scoreId: ID!): Score
 	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
+	deleteGame(gameId: ID!): Game
+	updateGame(gameId: ID!, title: String!, bannerImg: String, devs: [ID!]): Game
 	
 
 
