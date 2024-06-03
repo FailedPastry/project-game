@@ -21,7 +21,15 @@ const resolvers = {
 			  .populate('games');
 		  },
 		user: async (parent, { userId }) => {
-			return await User.findById(userId).populate('scores');
+			return await User.findById(userId)
+			.populate({
+			  path: 'scores',
+			  populate: {
+				path: 'game',
+				model: 'Game'
+			  }
+			})
+			.populate('games');;
 		},
 		userScores: async (parent, { userId }) => {
 			return await Score.find({ user: userId }).sort({ score: -1 }).populate('user').populate('game');
@@ -120,7 +128,22 @@ const resolvers = {
 			const populatedGame = await Game.findById(newGame._id).populate('devs').exec();
 		  
 			return populatedGame;
-		}
+		},
+
+		deleteGame: async (parent, { gameId }) => {
+			const game = await Game.findByIdAndDelete(gameId);
+			return game;
+		},
+
+		updateGame: async (parent, { gameId, title, bannerImg, devs }) => {
+			const devUsers = await User.find({ _id: { $in: devs } });
+			const updatedGame = await Game.findByIdAndUpdate (
+				gameId,
+				{ $set: { title, bannerImg, devs: devUsers.map(user => user._id) } },
+				{ new: true }
+			).populate('devs');
+			return updatedGame;
+		},
 	}
   };
   

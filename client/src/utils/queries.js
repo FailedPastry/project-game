@@ -23,11 +23,16 @@ export const GET_SINGLE_USER = gql`
 	query user ($userId: ID!) {
 		user(userId: $userId) {
 			_id
-			username
 			email
+			username
 			scores {
-				_id
-				score
+			  score
+			  game {
+				title
+			  }
+			}
+			games {
+			  title
 			}
 		}
 	}
