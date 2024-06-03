@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
-import LoginForm from '../components/LoginForm';
+import SignUpForm from '../components/SignupForm';
 
 const Login = () => {
 
@@ -9,8 +9,8 @@ const Login = () => {
 
 	return (
 		<div className="login">
-			{loggedIn ? <Navigate to="/profile" /> : <LoginForm />}
-			<a href="/signup">Sign Up</a>
+			{loggedIn ? <Navigate to="/profile" /> : <SignUpForm />}
+			<a href="/login">Log In</a>
 		</div>
 	);
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import DonateBtn from './DonateBtn';
 import Auth from '../utils/auth';
 
@@ -8,15 +9,15 @@ const NavBar = () => {
 
 	return (
 		<nav className="navbar">
-			<a href="/">Home</a>
-			<a href="/games">Games</a>
-			<a href="/leaderboard">Leaderboards</a>
-			{loggedIn ? <a href="/profile">Profile</a> : null}
+			<Link to="/">Home</Link>
+			<Link to="/games">Games</Link>
+			<Link to="/leaderboard">Leaderboards</Link>
+			{loggedIn ? <Link to="/profile">Profile</Link> : null}
 			
 			{loggedIn ? <button onClick={Auth.logout}>Logout</button> :
 				<div className="login">
-					<a href="/login">Login</a>
-					<a href="/login">Signup</a>
+					<Link to="/login">Log In</Link>
+					<Link to="/signup">Sign Up</Link>
 				</div>
 			}
 			

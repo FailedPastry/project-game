@@ -7,21 +7,35 @@ const resolvers = {
 			return await User.find().populate('scores');
 		},
 		allScores: async () => {
-			return await Score.find();
+			return await Score.find().sort({ score: -1 }).populate('user').populate('game');
 		},
 		me: async (parent, { userId }) => {
-			return await User.findById(userId).populate('scores');
-		},
+			return await User.findById(userId)
+			  .populate({
+				path: 'scores',
+				populate: {
+				  path: 'game',
+				  model: 'Game'
+				}
+			  })
+			  .populate('games');
+		  },
 		user: async (parent, { userId }) => {
 			return await User.findById(userId).populate('scores');
 		},
 		userScores: async (parent, { userId }) => {
-			return await Score.find({ userId: userId }).sort({ score: -1 });
+			return await Score.find({ user: userId }).sort({ score: -1 }).populate('user').populate('game');
+		},
+		allGames: async () => {
+			return await Game.find().populate('devs');
+		},
+		singleGame: async (parent, { gameId }) => {
+			return await Game.findById(gameId).populate('devs');
 		}
 	},
 
 	Mutation: {
-		addUser: async (parent, { username, email, password}) => {
+		addUser: async (parent, { username, email, password }) => {
 			const user = await User.create({ username, email, password });
 			const token = signToken(user);
 			return { token, user };
@@ -69,15 +83,20 @@ const resolvers = {
 			return deletedUser;
 		},
 
-		addScore: async (parent, { userId, score }) => {
+		addScore: async (parent, { userId, score, gameId }) => {
 
 			const user = await User.findById(userId);
+			const game = await Game.findById(gameId);
 
 			if (!user) {
 				throw new Error('Cannot find user with this id!');
 			}
 
-			const newScore = await Score.create({ score, username: user.username, userId: userId });
+			if (!game) {
+				throw new Error('Cannot find game with this id!');
+			}
+
+			const newScore = await Score.create({ score, username: user.username, userId: userId, gameId: gameId, gameTitle: game.title});
 
 			const updatedUser = await User.findByIdAndUpdate(
 				userId,
@@ -85,7 +104,7 @@ const resolvers = {
 				{ new: true }
 			).populate('scores');
 
-			return updatedUser;
+			return newScore;
 		},
 
 		deleteScore: async (parent, { scoreId }) => {

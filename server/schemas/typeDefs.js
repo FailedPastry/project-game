@@ -22,8 +22,8 @@ const typeDefs = gql`
   type Score {
 	_id: ID!
 	score: Int!
-	username: String!
-	userId: ID!
+	user: User
+	game: Game
   }
 
   type Game {
@@ -36,9 +36,12 @@ const typeDefs = gql`
   type Query {
 	allUsers: [User]
 	allScores: [Score]
+	allGames: [Game]
+	singleGame(gameId: ID!): Game
 	me(userId: ID!): User
 	user(userId: ID!): User
 	userScores(userId: ID!): [Score]
+
 
   }
 
@@ -47,7 +50,7 @@ const typeDefs = gql`
 	login(email: String!, password: String!): Auth
 	updateUser(userId: ID!, username: String!, email: String!, password: String!): User
 	deleteUser(userId: ID!): User
-	addScore(userId: ID!, score: Int!): User
+	addScore(userId: ID!, score: Int!, gameId: ID!): Score
 	deleteScore(scoreId: ID!): Score
 	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
 	

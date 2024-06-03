@@ -1,24 +1,18 @@
 const { Schema, model } = require('mongoose');
 
 const scoreSchema = new Schema(
-	  {
-	username: {
-	  type: String,
-	  required: true,
-	},
+ {
 	score: {
 	  type: Number,
 	  required: true,
 	},
-	userId: {
+	user: {
 	  type: Schema.Types.ObjectId,
 	  ref: 'User',
-	  required: true,
 	},
-	gameId: {
+	game: {
 	  type: Schema.Types.ObjectId,
 	  ref: 'Game',
-	  required: true,
 	},
   },
 );
