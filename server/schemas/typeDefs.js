@@ -41,6 +41,7 @@ const typeDefs = gql`
 	me(userId: ID!): User
 	user(userId: ID!): User
 	userScores(userId: ID!): [Score]
+	getUsersByUsername(username: [String!]!): [User]
 
 
   }

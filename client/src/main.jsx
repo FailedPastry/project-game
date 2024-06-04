@@ -9,6 +9,7 @@ import Profile from './pages/Profile.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Games from './pages/Games.jsx'
+import GameCreationPage from './pages/GameCreationPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
 	  {
 		path: '/profile/:userId',
 		element: <Profile />
+	  },
+	  {
+		path: '/profile/upload_game',
+		element: <GameCreationPage />
+	  },
+	  {
+		path: '/profile/upload_game/:gameId',
+		element: <GameCreationPage />
 	  }
     ]
   }

@@ -1,3 +1,4 @@
+const { get } = require('mongoose');
 const { User, Score, Game } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
@@ -39,6 +40,10 @@ const resolvers = {
 		},
 		singleGame: async (parent, { gameId }) => {
 			return await Game.findById(gameId).populate('devs');
+		},
+		getUsersByUsername: async (parent, { username }) => {
+			return await User.find({ username: { $in: username } });
+
 		}
 	},
 
