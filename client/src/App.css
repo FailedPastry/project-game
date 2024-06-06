@@ -127,3 +127,8 @@
 		border-radius: 50%;
 	}
   }
+
+.banner {
+	width: 80%;
+	margin: 10px 50px;
+}

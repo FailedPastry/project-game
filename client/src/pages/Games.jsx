@@ -25,8 +25,7 @@ const Games = () => {
 			<div className="games">
 				{data.allGames.map(game => (
 					<div key={game._id} className="game">
-						<img src={game.bannerImg} alt={game.title} />
-						<h2>{game.title}</h2>
+						<img className="banner" src={game.bannerImg} alt={game.title} />
 					</div>
 				))}
 			</div>
