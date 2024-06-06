@@ -17,19 +17,19 @@ const gameSeed = [
 	{
 		_id: gameId1,
 		title: 'Invaders from Space',
-		bannerImg: '/client/public/img/invaders.png',
+		bannerImg: '/img/invaders.png',
 		devs: [userId1, userId2],
 	},
 	{
 		_id: gameId2,
 		title: 'Monkey King',
-		bannerImg: '/client/public/img/monkeyKing.png',
+		bannerImg: '/img/monkeyKing.png',
 		devs: [userId3, userId4, userId5],
 	},
 	{
 		_id: gameId3,
 		title: 'Froggy',
-		bannerImg: '/client/public/img/froggy.png',
+		bannerImg: '/img/froggy.png',
 		devs: [userId5, userId1],
 	},
 ];
