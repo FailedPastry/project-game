@@ -16,20 +16,20 @@ const gameId3 = new mongoose.Types.ObjectId();
 const gameSeed = [
 	{
 		_id: gameId1,
-		title: 'Space Invaders',
-		bannerImg: 'game1.jpg',
+		title: 'Invaders from Space',
+		bannerImg: '/client/public/img/invaders.png',
 		devs: [userId1, userId2],
 	},
 	{
 		_id: gameId2,
-		title: 'Donkey Kong',
-		bannerImg: 'game2.jpg',
+		title: 'Monkey King',
+		bannerImg: '/client/public/img/monkeyKing.png',
 		devs: [userId3, userId4, userId5],
 	},
 	{
 		_id: gameId3,
-		title: 'Frogger',
-		bannerImg: 'game3.jpg',
+		title: 'Froggy',
+		bannerImg: '/client/public/img/froggy.png',
 		devs: [userId5, userId1],
 	},
 ];

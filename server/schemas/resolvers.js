@@ -1,3 +1,5 @@
+const { get } = require('mongoose');
+const bcrypt = require('bcrypt');
 const { User, Score, Game } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
@@ -39,6 +41,10 @@ const resolvers = {
 		},
 		singleGame: async (parent, { gameId }) => {
 			return await Game.findById(gameId).populate('devs');
+		},
+		getUsersByUsername: async (parent, { username }) => {
+			return await User.find({ username: { $in: username } });
+
 		}
 	},
 
@@ -69,9 +75,12 @@ const resolvers = {
 		},
 
 		updateUser: async (parent, { userId, username, email, password }) => {
+			const saltRounds = 10;
+			const hashedPassword = await bcrypt.hash(password, saltRounds);
+
 			const user = await User.findByIdAndUpdate(
 				userId,
-				{ $set: { username: username, email: email, password: password } },
+				{ $set: { username: username, email: email, password: hashedPassword } },
 				{ new: true }
 			);
 			return user;
