@@ -1,48 +1,62 @@
-import './index.css';
-import './App.css';
-import {
-	ApolloClient,
-	InMemoryCache,
-	ApolloProvider,
-	createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { Outlet } from 'react-router-dom';
+import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Navbar from './components/NavigationBar';
-import GameBox from './components/GameBox';
+import App from './App.jsx'
+import Home from './pages/Home.jsx'
+import Leaderboard from './pages/Leaderboard.jsx'
+import Profile from './pages/Profile.jsx'
+import Login from './pages/Login.jsx'
+import Signup from './pages/Signup.jsx'
+import Games from './pages/Games.jsx'
+import GameCreationPage from './pages/GameCreationPage.jsx'
 
-// Construct our main GraphQL API endpoint
-const httpLink = createHttpLink({
-	uri: '/graphql',
-});
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <h1 className='display-2'>Wrong page!</h1>,
+    children: [
+	  {
+		path: '/',
+		element: <Home />
+	  },
+	  {
+		path: '/login',
+		element: <Login />
+	  },
+	  {
+		path: '/signup',
+		element: <Signup />
+	  },
+	  {
+		path: '/games',
+		element: <Games />
+	  },
+	  {
+		path: '/leaderboard',
+		element: <Leaderboard />
+	  },
+	  {
+		path: '/profile',
+		element: <Profile />
+	  },
+	  {
+		path: '/profile/:userId',
+		element: <Profile />
+	  },
+	  {
+		path: '/profile/upload_game',
+		element: <GameCreationPage />
+	  },
+	  {
+		path: '/profile/upload_game/:gameId',
+		element: <GameCreationPage />
+	  }
+    ]
+  }
+])
 
-// Construct request middleware that will attach the JWT token to every request as an `authorization` header
-const authLink = setContext((_, { headers }) => {
-	const token = localStorage.getItem('id_token');
-	return {
-		headers: {
-			...headers,
-			authorization: token ? `Bearer ${token}` : '',
-		},
-	};
-});
-
-const client = new ApolloClient({
-	link: authLink.concat(httpLink),
-	cache: new InMemoryCache(),
-});
-
-
-
-function App() {
-  return (
-    <ApolloProvider client={client}>
-      <Navbar />
-	  <GameBox />
-      <Outlet />
-    </ApolloProvider>
-  );
-}
-
-export default App;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <RouterProvider router={router} />
+)

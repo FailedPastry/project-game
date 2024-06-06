@@ -74,3 +74,27 @@ export const GET_ALL_GAMES = gql`
 		}
 	}
 `;
+
+export const GET_GAME = gql`
+	query singleGame($gameId: ID!) {
+		game(gameId: $gameId) {
+			_id
+			title
+			bannerImg
+			developers {
+				_id
+				username
+			}
+		}
+	}
+`;
+
+
+export const GET_USERS_BY_USERNAME = gql`
+  query GetUsersByUsername($username: [String!]!) {
+    getUsersByUsername(username: $username) {
+      _id
+	  username
+    }
+  }
+`;
