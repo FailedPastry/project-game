@@ -38,7 +38,6 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Navbar />
-	  <GameBox />
       <Outlet />
     </ApolloProvider>
   );

@@ -4,13 +4,14 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { GET_SINGLE_USER } from '../utils/queries';
-import { UPDATE_USER } from '../utils/mutations';
+import { UPDATE_USER, DELETE_USER } from '../utils/mutations';
 
 
 const PrivateProfileSection = ({ user }) => {
 	
 	Modal.setAppElement('#root');
-	const [isOpen, setIsOpen] = React.useState(false);
+	const [isPasswordOpen, setIsPasswordOpen] = React.useState(false);
+	const [isDeleteOpen, setIsDeleteOpen] = React.useState(false);
 	const [password, setPassword] = React.useState('');
 	const [confirmPassword, setConfirmPassword] = React.useState('');
 	const [statusMessage, setStatusMessage] = React.useState('');
@@ -22,6 +23,7 @@ const PrivateProfileSection = ({ user }) => {
 	});
 
 	const [updateUser, { error }] = useMutation(UPDATE_USER);
+	const [deleteUser] = useMutation(DELETE_USER);
 
 	const customStyles = {
 		content: {
@@ -36,17 +38,27 @@ const PrivateProfileSection = ({ user }) => {
 		  borderRadius: '10px',
 
 		},
-	  };
+	};
 
 	
 
-	const openModal = () => {
-		setIsOpen(true);
+	const openPasswordModal = () => {
+		setIsPasswordOpen(true);
 	}
 
-	const closeModal = () => {
-		setIsOpen(false);
+	const closePasswordModal = () => {
+		setIsPasswordOpen(false);
 	}
+
+	const confirmDelete = () => {
+		setIsDeleteOpen(true);
+	}
+
+	const closeDeleteModal = () => {
+		setIsDeleteOpen(false);
+	}
+
+
 
 	const handlePasswordChange = async (event) => {
 		event.preventDefault();
@@ -62,13 +74,24 @@ const PrivateProfileSection = ({ user }) => {
 					}
 				});
 				setStatusMessage('Password updated successfully');
-				setTimeout(closeModal, 2000);
+				setTimeout(closePasswordModal, 2000);
 			} catch (error) {
 				console.error(error);
 				setStatusMessage('Something went wrong');
 			}
 		} else {
 			setStatusMessage('Passwords do not match');
+		}
+	};
+
+	const handleDelete = async () => {
+		try {
+			await deleteUser({
+				variables: { userId: myProfile.data._id }
+			});
+			Auth.logout();
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -85,25 +108,25 @@ const PrivateProfileSection = ({ user }) => {
 
 	return (
 		<div className="profile">
-			<h2>Private Section</h2>
-			{data?.user?.scores.map((score, index) => (
-				<div key={score._id} className="score_entry">
-					<div className="game">{score.game.title}</div>
-					<div className="score">{score.score}</div>
-				</div>
-			))}
+			{data?.user?.scores?.score?.game?.title ?
+				data?.user?.scores.map((score, index) => (
+					<div key={score._id} className="score_entry">
+						<div className="game">{score.game.title}</div>
+						<div className="score">{score.score}</div>
+					</div>
+				))
+				: <div>No scores</div>
+			}
 			<div className="game_btns">
 				<Link to="/profile/upload_game" className="profile_btn">New Game</Link>
-				<button className="profile_btn">Edit Game</button>
-				<button className="profile_btn">Delete Game</button>
 			</div>
 			<div className="profile_btns">
-				<button onClick={openModal} className="profile_btn">Change Password</button>
-				<button className="profile_btn">Delete Account</button>
+				<button onClick={openPasswordModal} className="profile_btn">Change Password</button>
+				<button className="profile_btn" onClick={confirmDelete}>Delete Account</button>
 			</div>
 			<Modal
-				isOpen={isOpen}
-				onRequestClose={closeModal}
+				isOpen={isPasswordOpen}
+				onRequestClose={closePasswordModal}
 				style={customStyles}
 				contentLabel="Change Password Modal"
 			>
@@ -118,9 +141,20 @@ const PrivateProfileSection = ({ user }) => {
 						<label htmlFor="confirmPassword">Confirm New Password:</label>
 						<input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange}/>
 					</div>
-					<button onClick={closeModal}>Cancel</button>
+					<button onClick={closePasswordModal}>Cancel</button>
 					<button type="submit">Submit</button>
 				</form>
+			</Modal>
+			<Modal
+				isOpen={isDeleteOpen}
+				onRequestClose={closeDeleteModal}
+				style={customStyles}
+				contentLabel="Delete Account Modal"
+			>
+				<h2>Delete Account</h2>
+				<p>Are you sure you want to delete your account? This action cannot be undone.</p>
+				<button onClick={closeDeleteModal}>Cancel</button>
+				<button onClick={handleDelete}>Delete Account</button>
 			</Modal>
 		</div>
 	);

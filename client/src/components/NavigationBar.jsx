@@ -15,10 +15,10 @@ const NavBar = () => {
 			{loggedIn ? <Link to="/profile">Profile</Link> : null}
 			
 			{loggedIn ? <button onClick={Auth.logout}>Logout</button> :
-				<div className="login">
+				<>
 					<Link to="/login">Log In</Link>
 					<Link to="/signup">Sign Up</Link>
-				</div>
+				</>
 			}
 			
 			<div className="search">

@@ -11,17 +11,17 @@ const resolvers = {
 		allScores: async () => {
 			return await Score.find().sort({ score: -1 }).populate('user').populate('game');
 		},
-		me: async (parent, { userId }) => {
-			return await User.findById(userId)
-			  .populate({
-				path: 'scores',
-				populate: {
-				  path: 'game',
-				  model: 'Game'
-				}
-			  })
-			  .populate('games');
-		  },
+		// me: async (parent, { userId }) => {
+		// 	return await User.findById(userId)
+		// 	  .populate({
+		// 		path: 'scores',
+		// 		populate: {
+		// 		  path: 'game',
+		// 		  model: 'Game'
+		// 		}
+		// 	  })
+		// 	  .populate('games');
+		//   },
 		user: async (parent, { userId }) => {
 			return await User.findById(userId)
 			.populate({
@@ -140,6 +140,7 @@ const resolvers = {
 		},
 
 		deleteGame: async (parent, { gameId }) => {
+			await Score.deleteMany({ game: gameId });
 			const game = await Game.findByIdAndDelete(gameId);
 			return game;
 		},
