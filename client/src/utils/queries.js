@@ -91,9 +91,10 @@ export const GET_GAME = gql`
 
 
 export const GET_USERS_BY_USERNAME = gql`
-  query GetDevsByUsername($usernames: [String!]!) {
-    users(where: { username_in: $usernames }) {
-      id
+  query GetUsersByUsername($username: [String!]!) {
+    getUsersByUsername(username: $username) {
+      _id
+	  username
     }
   }
 `;

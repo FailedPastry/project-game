@@ -5,82 +5,101 @@ import { ADD_GAME, UPDATE_GAME } from '../utils/mutations';
 import { GET_GAME, GET_USERS_BY_USERNAME } from '../utils/queries';
 
 const GameCreationForm = () => {
-  const [gameTitle, setGameTitle] = React.useState('');
-  const [bannerImg, setBannerImg] = React.useState('');
-  const [devs, setDevs] = React.useState([]);
-  const [devIds, setDevIds] = React.useState([]);
-  const [addGame] = useMutation(ADD_GAME);
-  const [updateGame] = useMutation(UPDATE_GAME);
+	const [gameTitle, setGameTitle] = React.useState('');
+	const [bannerImg, setBannerImg] = React.useState('');
+	const [devs, setDevs] = React.useState([]);
+	const [devIds, setDevIds] = React.useState([]);
+	const [devsInput, setDevsInput] = React.useState('');
+	const [addGame] = useMutation(ADD_GAME);
+	const [updateGame] = useMutation(UPDATE_GAME);
 
-  const { gameId } = useParams();
+	const { gameId } = useParams();
 
-  const { loading: gameLoading, error: gameError, data: gameData } = useQuery(GET_GAME, { 
-    variables: { gameId: gameId },
-    skip: !gameId
-  });
+	const {
+		loading: gameLoading,
+		error: gameError,
+		data: gameData,
+	} = useQuery(GET_GAME, {
+		variables: { gameId: gameId },
+		skip: !gameId,
+	});
 
-  const { loading: devsLoading, error: devsError, data: devsData } = useQuery(GET_USERS_BY_USERNAME, {
-    variables: { usernames: devs },
-    skip: !devs.length,
-  });
+	const {
+		loading: devsLoading,
+		error: devsError,
+		data: devsData,
+	} = useQuery(GET_USERS_BY_USERNAME, {
+		variables: { username: devs },
+		skip: !devs.length,
+	});
 
-  if (devsError) {
-	console.error(devsError);
+	if (devsError) {
+		console.error(devsError);
 	}
 
-  useEffect(() => {
-    if (devsData) {
-      setDevIds(devsData.devs.map(dev => dev.id));
-    }
-  }, [devsData]);
+	useEffect(() => {
+		if (gameData && gameData.game && gameData.game.devs) {
+			setGameTitle(gameData.game.title);
+			setBannerImg(gameData.game.bannerImg);
+			setDevs(gameData.game.devs.map((dev) => dev.username));
+		}
+	});
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    
-    if (gameLoading || devsLoading) {
-      return;
-    }
-    
-    if (gameError) {
-      // The gameId was undefined or invalid, so create a new game
-      try {
-        await addGame({
-          variables: {
-            title: gameTitle,
-            bannerImg: bannerImg,
-            devs: devIds,
-          },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      // The gameId was valid, so update the existing game
-      try {
-        await updateGame({
-          variables: {
-            gameId: gameId,
-            title: gameTitle,
-            bannerImg: bannerImg,
-            devs: devIds,
-          },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  };
+	useEffect(() => {
+		if (devsData && devsData.devs) {
+			setDevIds(devsData.devs.map((dev) => dev.id));
+		}
+	}, [devsData]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    if(name === 'devs') {
-      setDevs(value.split(','));
-    } else if(name === 'gameTitle') {
-      setGameTitle(value);
-    } else {
-      setBannerImg(value);
-    }
-  }
+	const handleFormSubmit = async (event) => {
+		event.preventDefault();
+
+		if (gameLoading || devsLoading) {
+			return;
+		}
+
+		setDevs(devsInput.split(',').map((dev) => dev.trim()));
+
+		if (!gameData || !gameData.game) {
+			// The gameId was undefined or invalid, so create a new game
+			try {
+				await addGame({
+					variables: {
+						title: gameTitle,
+						bannerImg: bannerImg,
+						devs: devIds,
+					},
+				});
+			} catch (e) {
+				console.error(e);
+			}
+		} else {
+			// The gameId was valid, so update the existing game
+			try {
+				await updateGame({
+					variables: {
+						gameId: gameId,
+						title: gameTitle,
+						bannerImg: bannerImg,
+						devs: devIds,
+					},
+				});
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	};
+
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		if (name === 'devs') {
+			setDevsInput(value);
+		} else if (name === 'gameTitle') {
+			setGameTitle(value);
+		} else {
+			setBannerImg(value);
+		}
+	};
 
 	return (
 		<div className="game-form">
@@ -116,10 +135,16 @@ const GameCreationForm = () => {
 						name="devs"
 						type="text"
 						id="devs"
+						value={devsInput}
 						onChange={handleChange}
 					/>
 				</div>
-				<button className="btn" type="submit" style={{ cursor: 'pointer'}}>
+				<button
+					className="btn"
+					type="submit"
+					style={{ cursor: 'pointer' }}
+					disabled={gameLoading || devsLoading}
+				>
 					Submit
 				</button>
 			</form>
