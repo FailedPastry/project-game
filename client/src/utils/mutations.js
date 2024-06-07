@@ -88,3 +88,11 @@ export const UPDATE_GAME = gql`
 	}
   }
 `;
+
+export const DELETE_GAME = gql`
+  mutation DeleteGame($gameId: ID!) {
+	deleteGame(gameId: $gameId) {
+	  _id
+	}
+  }
+`;

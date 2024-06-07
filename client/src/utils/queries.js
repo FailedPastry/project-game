@@ -1,38 +1,40 @@
 import { gql } from '@apollo/client';
 
 export const GET_ME = gql`
-query Query($userId: ID!) {
-	me(userId: $userId) {
-	  _id
-	  email
-	  username
-	  scores {
-		score
-		game {
-		  title
+	query Query($userId: ID!) {
+		me(userId: $userId) {
+			_id
+			email
+			username
+			scores {
+				score
+				game {
+					title
+				}
+			}
+			games {
+				title
+			}
 		}
-	  }
-	  games {
-		title
-	  }
 	}
-  }
 `;
 
 export const GET_SINGLE_USER = gql`
-	query user ($userId: ID!) {
+	query user($userId: ID!) {
 		user(userId: $userId) {
 			_id
 			email
 			username
 			scores {
-			  score
-			  game {
-				title
-			  }
+				score
+				game {
+					title
+				}
 			}
 			games {
-			  title
+				_id
+				title
+				bannerImg
 			}
 		}
 	}
@@ -77,11 +79,11 @@ export const GET_ALL_GAMES = gql`
 
 export const GET_GAME = gql`
 	query singleGame($gameId: ID!) {
-		game(gameId: $gameId) {
+		singleGame(gameId: $gameId) {
 			_id
 			title
 			bannerImg
-			developers {
+			devs {
 				_id
 				username
 			}
@@ -89,12 +91,11 @@ export const GET_GAME = gql`
 	}
 `;
 
-
 export const GET_USERS_BY_USERNAME = gql`
-  query GetUsersByUsername($username: [String!]!) {
-    getUsersByUsername(username: $username) {
-      _id
-	  username
-    }
-  }
+	query GetUsersByUsername($username: [String!]!) {
+		getUsersByUsername(username: $username) {
+			_id
+			username
+		}
+	}
 `;

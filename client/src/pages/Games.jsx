@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { GET_ALL_GAMES } from '../utils/queries';
+import { Link } from 'react-router-dom';
 
 const Games = () => {
 
@@ -25,7 +26,9 @@ const Games = () => {
 			<div className="games">
 				{data.allGames.map(game => (
 					<div key={game._id} className="game">
+						<Link to={`/games/${game._id}`}>
 						<img className="banner" src={game.bannerImg} alt={game.title} />
+						</Link>
 					</div>
 				))}
 			</div>
