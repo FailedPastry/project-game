@@ -4,8 +4,9 @@ let invaders;
 let shooterImage;
 let player;
 function preload() {
-  alienImage = loadImage("invader1.png");
-  shooterImage = loadImage("shooter.png");
+  // alienImage = loadImage("./invader1.png");
+  alienImage = loadImage("client/public/img/invader1.png");
+  shooterImage = loadImage("client/public/img/shooter.png");
 }
 function setup() {
   createCanvas(400, 400);
