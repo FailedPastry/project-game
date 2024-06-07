@@ -26,9 +26,11 @@ const PlayGamePage = () => {
 			<div className="game-info">
 				<h2>{data?.singleGame?.title}</h2>
 				<h2>Developed By:</h2>
-				{data?.singleGame?.devs.map(dev => (
-					<Link to={`/profile/${dev._id}`} key={dev._id}>{dev.username}</Link>
-				))}
+				<div className="devs-list">
+					{data?.singleGame?.devs.map(dev => (
+						<Link to={`/profile/${dev._id}`} key={dev._id}>{dev.username}</Link>
+					))}
+				</div>
 				<Link to="/games">Back to Games</Link>
 			</div>
 		</div>

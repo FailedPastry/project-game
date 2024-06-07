@@ -140,7 +140,7 @@ const GameCreationForm = () => {
 					/>
 				</div>
 				<button
-					className="btn"
+					className="form-btn"
 					type="submit"
 					style={{ cursor: 'pointer' }}
 					disabled={gameLoading || devsLoading}

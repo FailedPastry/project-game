@@ -108,7 +108,7 @@ const PrivateProfileSection = ({ user }) => {
 
 	return (
 		<div className="profile">
-			{data?.user?.scores?.score?.game?.title ?
+			{data?.user?.scores && data?.user?.scores.length > 0 ?
 				data?.user?.scores.map((score, index) => (
 					<div key={score._id} className="score_entry">
 						<div className="game">{score.game.title}</div>
@@ -141,8 +141,8 @@ const PrivateProfileSection = ({ user }) => {
 						<label htmlFor="confirmPassword">Confirm New Password:</label>
 						<input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange}/>
 					</div>
-					<button onClick={closePasswordModal}>Cancel</button>
-					<button type="submit">Submit</button>
+					<button onClick={closePasswordModal} className="form-btn">Cancel</button>
+					<button type="submit" className="form-btn">Submit</button>
 				</form>
 			</Modal>
 			<Modal
@@ -153,8 +153,8 @@ const PrivateProfileSection = ({ user }) => {
 			>
 				<h2>Delete Account</h2>
 				<p>Are you sure you want to delete your account? This action cannot be undone.</p>
-				<button onClick={closeDeleteModal}>Cancel</button>
-				<button onClick={handleDelete}>Delete Account</button>
+				<button onClick={closeDeleteModal} className="form-btn">Cancel</button>
+				<button onClick={handleDelete} className="form-btn">Delete Account</button>
 			</Modal>
 		</div>
 	);

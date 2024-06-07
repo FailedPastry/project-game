@@ -53,7 +53,7 @@ const LoginForm = () => {
 						onChange={handleChange}
 					/>
 				</div>
-				<button className="btn" type="submit" style={{ cursor: 'pointer'}}>
+				<button className="form-btn" type="submit" style={{ cursor: 'pointer'}}>
 					Submit
 				</button>
 			</form>

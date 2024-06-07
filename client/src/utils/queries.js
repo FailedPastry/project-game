@@ -58,9 +58,11 @@ export const GET_LEADERBOARD = gql`
 			_id
 			score
 			user {
+				_id
 				username
 			}
 			game {
+				_id
 				title
 			}
 		}

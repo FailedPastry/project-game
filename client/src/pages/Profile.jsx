@@ -31,15 +31,15 @@ const Profile = () => {
 		},
 	};
 
-	const myProfile = Auth.getProfile();
+	const myProfile = Auth.loggedIn() ? Auth.getProfile() : null;
 	const { userId } = useParams();
-	const currentProfile = userId || myProfile.data._id;
+	const currentProfile = userId || myProfile?.data?._id;
 
 	React.useEffect(() => {
-		if (myProfile.data._id === currentProfile) {
+		if (myProfile?.data?._id === currentProfile) {
 		  setIsMyProfile(true);
 		}
-	  }, [myProfile.data._id, currentProfile]
+	  }, [myProfile?.data?._id, currentProfile]
 	);
 
 	const { loading, data } = useQuery(GET_SINGLE_USER, {
@@ -90,15 +90,15 @@ const Profile = () => {
 			<div className="highScores">
 				<h3>High Scores:</h3>
 				<div className="highScore1">
-					{sortedScores[0]?.game?.title || "Game"}:
+					{sortedScores[0]?.game?.title || "Game"}:{' '}
 					{sortedScores[0]?.score || 0}
 				</div>
 				<div className="highScore2">
-					{sortedScores[1]?.game?.title || "Game"}:
+					{sortedScores[1]?.game?.title || "Game"}:{' '}
 					{sortedScores[1]?.score || 0}
 				</div>
 				<div className="highScore3">
-					{sortedScores[2]?.game?.title || "Game"}:
+					{sortedScores[2]?.game?.title || "Game"}:{' '}
 					{sortedScores[2]?.score || 0}
 				</div>
 			</div>
@@ -139,8 +139,8 @@ const Profile = () => {
 				style={customStyles}
 			>
 				<h2>Are you sure you want to delete this game?</h2>
-				<button onClick={handleCloseModal}>Cancel</button>
-				<button onClick={() => handleDeleteGame(gameIdToDelete)}>Delete</button>
+				<button onClick={handleCloseModal} className="form-btn">Cancel</button>
+				<button onClick={() => handleDeleteGame(gameIdToDelete)} className="form-btn">Delete</button>
 			</Modal>
 		</div>
 
