@@ -35,9 +35,9 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (keyCode === RIGHT_ARROW || keyCode == 88) {
+  if (keyCode === RIGHT_ARROW || keyCode == 68) {
     player.moveRight();
-  } else if (keyCode === LEFT_ARROW || keyCode == 90) {
+  } else if (keyCode === LEFT_ARROW || keyCode == 65) {
     player.moveLeft();
   } else if (keyCode === 32) {
     player.shoot();
