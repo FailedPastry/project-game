@@ -46,7 +46,7 @@
 	height: 50vh;
     max-width: 800px;
     max-height: 600px;
-    background-color: #111; /* Dark background for the game area */
+    /* background-color: #111; Dark background for the game area */
     border: 2px solid #fff;
     margin-top: 2rem;
   }
@@ -309,4 +309,12 @@ a:hover {
 	.mobile-menu {
 		display: none;
 	}
+}
+
+a:hover {
+	color: red;
+}
+
+a:active {
+	color: #00ff00;
 }

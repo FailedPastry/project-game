@@ -42,14 +42,19 @@ export const DELETE_USER = gql`
 `;
 
 export const ADD_SCORE = gql`
-  mutation Mutation($userId: ID!, $score: Int!) {
-	addScore(userId: $userId, score: $score) {
-	  username
-	  scores {
-		score
-	  }
-	}
+mutation Mutation($userId: ID!, $score: Int!, $gameId: ID!) {
+  addScore(userId: $userId, score: $score, gameId: $gameId) {
+    score
+    user {
+      _id
+      username
+    }
+    game {
+      _id
+      title
+    }
   }
+}
 `;
 
 export const DELETE_SCORE = gql`
@@ -62,8 +67,8 @@ export const DELETE_SCORE = gql`
 `;
 
 export const ADD_GAME = gql`
-  mutation AddGame($title: String!, $bannerImg: String, $devs: [ID!]!) {
-    addGame(title: $title, bannerImg: $bannerImg, devs: $devs) {
+  mutation AddGame($title: String!, $bannerImg: String, $devs: [ID!]!, $path: String!) {
+    addGame(title: $title, bannerImg: $bannerImg, devs: $devs, path: $path) {
       _id
       title
       bannerImg

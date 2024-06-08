@@ -75,6 +75,11 @@ export const GET_ALL_GAMES = gql`
 			_id
 			title
 			bannerImg
+			devs {
+				_id
+				username
+			}
+			path
 		}
 	}
 `;
@@ -89,6 +94,7 @@ export const GET_GAME = gql`
 				_id
 				username
 			}
+			path
 		}
 	}
 `;

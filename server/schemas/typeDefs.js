@@ -31,6 +31,7 @@ const typeDefs = gql`
 	title: String!
 	bannerImg: String
 	devs: [User]
+	path: String!
    }
 
   type Query {
@@ -53,9 +54,9 @@ const typeDefs = gql`
 	deleteUser(userId: ID!): User
 	addScore(userId: ID!, score: Int!, gameId: ID!): Score
 	deleteScore(scoreId: ID!): Score
-	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
+	addGame(title: String!, bannerImg: String, devs: [ID!], path: String!): Game
 	deleteGame(gameId: ID!): Game
-	updateGame(gameId: ID!, title: String!, bannerImg: String, devs: [ID!]): Game
+	updateGame(gameId: ID!, title: String!, bannerImg: String, devs: [ID!], path: String!): Game
 	
 
 

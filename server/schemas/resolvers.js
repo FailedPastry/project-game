@@ -113,7 +113,7 @@ const resolvers = {
 				throw new Error('Cannot find game with this id!');
 			}
 
-			const newScore = await Score.create({ score, username: user.username, userId: userId, gameId: gameId, gameTitle: game.title});
+			const newScore = await Score.create({ score, user: userId, game: gameId,});
 
 			const updatedUser = await User.findByIdAndUpdate(
 				userId,
@@ -121,7 +121,9 @@ const resolvers = {
 				{ new: true }
 			).populate('scores');
 
-			return newScore;
+			const populatedScore = await Score.findById(newScore._id).populate('user').populate('game');
+
+			return populatedScore;
 		},
 
 		deleteScore: async (parent, { scoreId }) => {
@@ -129,9 +131,9 @@ const resolvers = {
 			return score;
 		},
 
-		addGame: async (parent, { title, bannerImg, devs }) => {
+		addGame: async (parent, { title, bannerImg, devs, path }) => {
 			const devUsers = await User.find({ _id: { $in: devs } });
-			const newGame = await Game.create({ title, bannerImg, devs: devUsers.map(user => user._id) });
+			const newGame = await Game.create({ title, bannerImg, devs: devUsers.map(user => user._id), path});
 		  
 			// Populate the devs field with user data before returning the game
 			const populatedGame = await Game.findById(newGame._id).populate('devs').exec();
@@ -145,11 +147,11 @@ const resolvers = {
 			return game;
 		},
 
-		updateGame: async (parent, { gameId, title, bannerImg, devs }) => {
+		updateGame: async (parent, { gameId, title, bannerImg, devs, path }) => {
 			const devUsers = await User.find({ _id: { $in: devs } });
 			const updatedGame = await Game.findByIdAndUpdate (
 				gameId,
-				{ $set: { title, bannerImg, devs: devUsers.map(user => user._id) } },
+				{ $set: { title, bannerImg, devs: devUsers.map(user => user._id), path } },
 				{ new: true }
 			).populate('devs');
 			return updatedGame;
