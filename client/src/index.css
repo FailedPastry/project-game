@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Global styles */
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000; /* Black background to match the game */
+    color: #fff; /* White text */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Container class for layout consistency */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Global heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  /* Global link styles */
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Button styles */
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Flex utilities */
+  .flex {
+    display: flex;
+  }
+  
+  .flex-column {
+    flex-direction: column;
+  }
+  
+  .flex-center {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    width: 100%;
+    background-color: #222;
+    padding: 1rem;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #444;
+  }
+  
+  /* Game-specific styles */
+  .game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background-color: #111; /* Dark background for the game area */
+    border: 2px solid #fff;
+    margin-top: 2rem;
+  }
+  
+  .player {
+    position: absolute;
+    bottom: 20px; /* 20px from the bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: #0f0; /* Green color for the player ship */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .invader {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #f00; /* Red color for the invaders */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .bullet {
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    background-color: #ff0; /* Yellow color for the bullets */
+    border-radius: 2px; /* Rounded corners */
+  }
+  
+  @keyframes move-bullet {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-600px);
+    }
+  }
+  
+  @keyframes move-invader {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(200px);
+    }
+  }
+  
+  .bullet {
+    animation: move-bullet 1s linear infinite;
+  }
+  
+  .invader {
+    animation: move-invader 2s linear infinite;
+  }
+  
+  .game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: #f00; /* Red color for game over text */
+    display: none; /* Hidden by default */
+  }
+  
+  /* Utility classes */
+  .hidden {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }
