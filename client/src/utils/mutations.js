@@ -67,10 +67,12 @@ export const DELETE_SCORE = gql`
 `;
 
 export const ADD_GAME = gql`
-  mutation AddGame($title: String!, $bannerImg: String, $devs: [ID!]!, $path: String!) {
-    addGame(title: $title, bannerImg: $bannerImg, devs: $devs, path: $path) {
+  mutation AddGame($title: String!, $description: String!, $controlsGuide: String!, $bannerImg: String, $devs: [ID!]!, $path: String!) {
+    addGame(title: $title, description: $description, controlsGuide: $controlsGuide, bannerImg: $bannerImg, devs: $devs, path: $path) {
       _id
       title
+	  description
+	  controlsGuide
       bannerImg
       devs {
         _id
@@ -81,10 +83,12 @@ export const ADD_GAME = gql`
 `;
 
 export const UPDATE_GAME = gql`
-  mutation UpdateGame($gameId: ID!, $title: String!, $bannerImg: String, $devs: [ID!]!) {
-	updateGame(gameId: $gameId, title: $title, bannerImg: $bannerImg, devs: $devs) {
+  mutation UpdateGame($gameId: ID!, $title: String!, $description: String!, $controlsGuide: String!, $bannerImg: String, $devs: [ID!]!) {
+	updateGame(gameId: $gameId, title: $title, description: $description, controlsGuide: $controlsGuide, bannerImg: $bannerImg, devs: $devs) {
 	  _id
 	  title
+	  description
+	  controlsGuide
 	  bannerImg
 	  devs {
 		_id

@@ -32,18 +32,20 @@ const PlayGamePage = () => {
 	// });
 
 	return (
-		<div>
+		<div className="play-container">
 			<img className="play-banner" src={data?.singleGame?.bannerImg} alt={data?.singleGame?.title} />
 			<div className="gamebox-container">
 				<GameBox />
 			</div>
-			<div className="joystick-container">
+			{/* <div className="joystick-container">
 
-			</div>
+			</div> */}
 			<img className="control-banner" src="/img/gameControlArt.png" alt="game controls graphic" />
 			<div className="game-info">
 				<h2>{data?.singleGame?.title}</h2>
-				<h2>Developed By:</h2>
+				<p>{data?.singleGame?.description}</p>
+				<p>{data?.singleGame?.controlsGuide}</p>
+				<h3>Developed By:</h3>
 				<div className="devs-list">
 					{data?.singleGame?.devs.map(dev => (
 						<Link to={`/profile/${dev._id}`} key={dev._id}>{dev.username}</Link>

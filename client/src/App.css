@@ -3,6 +3,10 @@
 	--arcadeGreen: #00ff00;
 	--arcadeBlue: #0000ff;
 	--arcadeYellow: #ffff00;
+	--navBackround: #222;
+	--navAccent: #444;
+	--gameboxBackground: #111;
+	--gameInfoBox: #015568;
 }
 
 
@@ -29,12 +33,12 @@
   /* Navbar styles */
   .navbar {
     width: 100vw;
-    background-color: #222;
+    background-color: var(--navBackround);
     padding: 1rem;
     text-align: center;
     color: white;
     font-size: 20px;
-    border-bottom: 2px solid #444;
+    border-bottom: 2px solid var(--navAccent);
 	display: flex;
 	justify-content: space-around;
   }
@@ -54,7 +58,7 @@
 	width: 100%;
     max-width: 800px;
     /* max-height: 600px; */
-    background-color: #111; /* Dark background for the game area */
+    background-color: var(--gameboxBackground); /* Dark background for the game area */
     border: 2px solid white;
     margin-top: 2rem;
 	overflow: hidden;
@@ -231,15 +235,28 @@ a {
 .mobile-dropdown {
 	display: flex;
 	flex-direction: column;
+	position: absolute;
+	top: 55px;
+	background-color: var(--navBackround);
+	opacity: .95;
+	border-bottom: 2px solid var(--navAccent);
+	border-radius: 10px;
+	width: 100%;
+	left: 0;
 }
 
 .game-info {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	margin: 10px 0px;
 	padding: 25px;
+	border: 25px solid var(--gameInfoBox);
+	width: 98.5%;
+	left: .8%;
+	top: -12px;
 }
 
 .devs-list {
@@ -334,9 +351,19 @@ button:active {
 }
 
 .control-banner {
-	width: 100%;
-	top: 200px;
-	display: none;
+	position: relative;
+	width: 105%;
+	/* top: 200px; */
+	left: -2.5%;
+	/* display: none; */
+}
+
+.play-container {
+	overflow: hidden;
+	/* display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; */
 }
 
 #arrow-keys {
@@ -369,4 +396,8 @@ canvas {
 	#arrow-keys {
 		display: none;
 	}
+}
+
+.complete-scores {
+	margin-bottom: 25px;
 }

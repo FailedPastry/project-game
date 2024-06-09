@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { ADD_GAME, UPDATE_GAME } from '../utils/mutations';
-import { GET_GAME, GET_USERS_BY_USERNAME } from '../utils/queries';
+import { ADD_GAME } from '../utils/mutations';
+import { GET_USERS_BY_USERNAME } from '../utils/queries';
 
 const GameCreationForm = () => {
 	const [gameTitle, setGameTitle] = React.useState('');
@@ -10,19 +10,15 @@ const GameCreationForm = () => {
 	const [devs, setDevs] = React.useState([]);
 	const [devIds, setDevIds] = React.useState([]);
 	const [devsInput, setDevsInput] = React.useState('');
+	const [description, setDescription] = React.useState('');
+	const [controlsGuide, setControlsGuide] = React.useState('');
+	const [path, setPath] = React.useState('');
 	const [addGame] = useMutation(ADD_GAME);
-	const [updateGame] = useMutation(UPDATE_GAME);
 
-	const { gameId } = useParams();
-
-	const {
-		loading: gameLoading,
-		error: gameError,
-		data: gameData,
-	} = useQuery(GET_GAME, {
-		variables: { gameId: gameId },
-		skip: !gameId,
-	});
+	useEffect(() => {
+		setDevs(devsInput.split(',').map((dev) => dev.trim()));
+		console.log('Devs after setting from the devs input:', devs);
+	}, [devsInput]);
 
 	const {
 		loading: devsLoading,
@@ -33,60 +29,63 @@ const GameCreationForm = () => {
 		skip: !devs.length,
 	});
 
+	console.log('Query data:', devsData);
+
 	if (devsError) {
 		console.error(devsError);
 	}
 
-	useEffect(() => {
-		if (gameData && gameData.game && gameData.game.devs) {
-			setGameTitle(gameData.game.title);
-			setBannerImg(gameData.game.bannerImg);
-			setDevs(gameData.game.devs.map((dev) => dev.username));
-		}
-	});
+
+useEffect(() => {
+    if (devsData && devsData.devs) {
+        const newDevIds = devsData.devs.map((dev) => dev.id);
+        setDevIds(newDevIds);
+
+        // Perform the mutation here
+        try {
+            addGame({
+                variables: {
+                    title: gameTitle,
+                    description: description,
+                    controlsGuide: controlsGuide,
+                    bannerImg: bannerImg,
+                    path: path,
+                    devs: newDevIds,
+                },
+            });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}, [devsData]);
 
 	useEffect(() => {
-		if (devsData && devsData.devs) {
-			setDevIds(devsData.devs.map((dev) => dev.id));
-		}
-	}, [devsData]);
+		console.log('DevIds after setting from the devs input:', devIds);
+	}, [devIds]);
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
 
-		if (gameLoading || devsLoading) {
+		if (devsLoading) {
 			return;
 		}
 
-		setDevs(devsInput.split(',').map((dev) => dev.trim()));
+		console.log('Devs before addGame or updateGame:', devs);
+		console.log('DevIds before addGame or updateGame:', devIds);
 
-		if (!gameData || !gameData.game) {
-			// The gameId was undefined or invalid, so create a new game
-			try {
-				await addGame({
-					variables: {
-						title: gameTitle,
-						bannerImg: bannerImg,
-						devs: devIds,
-					},
-				});
-			} catch (e) {
-				console.error(e);
-			}
-		} else {
-			// The gameId was valid, so update the existing game
-			try {
-				await updateGame({
-					variables: {
-						gameId: gameId,
-						title: gameTitle,
-						bannerImg: bannerImg,
-						devs: devIds,
-					},
-				});
-			} catch (e) {
-				console.error(e);
-			}
+		try {
+			await addGame({
+				variables: {
+					title: gameTitle,
+					description: description,
+					controlsGuide: controlsGuide,
+					bannerImg: bannerImg,
+					path: path,
+					devs: devIds,
+				},
+			});
+		} catch (e) {
+			console.error(e);
 		}
 	};
 
@@ -96,14 +95,20 @@ const GameCreationForm = () => {
 			setDevsInput(value);
 		} else if (name === 'gameTitle') {
 			setGameTitle(value);
-		} else {
+		} else if (name === 'bannerImg') {
 			setBannerImg(value);
+		} else if (name === 'description') {
+			setDescription(value);
+		} else if (name === 'controlsGuide') {
+			setControlsGuide(value);
+		} else if (name === 'path') {
+			setPath(value);
 		}
 	};
 
 	return (
 		<div className="game-form">
-			<h2>{gameData && gameData.game ? 'Update Game' : 'Add Game'}</h2>
+			<h2>Add Game</h2>
 			<form onSubmit={handleFormSubmit}>
 				<div className="form-group">
 					<label htmlFor="gameTitle">Game Title:</label>
@@ -113,6 +118,28 @@ const GameCreationForm = () => {
 						name="gameTitle"
 						type="text"
 						id="gameTitle"
+						onChange={handleChange}
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="description">Description:</label>
+					<input
+						className="form-input"
+						placeholder="Description"
+						name="description"
+						type="text"
+						id="description"
+						onChange={handleChange}
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="controlsGuide">Controls Guide:</label>
+					<input
+						className="form-input"
+						placeholder="Controls Guide"
+						name="controlsGuide"
+						type="text"
+						id="controlsGuide"
 						onChange={handleChange}
 					/>
 				</div>
@@ -139,11 +166,22 @@ const GameCreationForm = () => {
 						onChange={handleChange}
 					/>
 				</div>
+				<div className="form-group">
+					<label htmlFor="path">Path:</label>
+					<input
+						className="form-input"
+						placeholder="Path"
+						name="path"
+						type="text"
+						id="path"
+						onChange={handleChange}
+					/>
+				</div>
 				<button
 					className="form-btn"
 					type="submit"
 					style={{ cursor: 'pointer' }}
-					disabled={gameLoading || devsLoading}
+					disabled={devsLoading}
 				>
 					Submit
 				</button>

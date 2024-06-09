@@ -18,6 +18,8 @@ const gameSeed = [
 	{
 		_id: gameId1,
 		title: 'Invaders from Space',
+		description: 'A fight invaders from spcace!',
+		controlsGuide: 'Use left and right arrow keys to move and the up key to shoot.',
 		bannerImg: '/img/invaders.png',
 		devs: [userId1, userId2],
 		path: './invadersGame.jsx',
@@ -25,6 +27,8 @@ const gameSeed = [
 	{
 		_id: gameId2,
 		title: 'Monkey King',
+		description: 'A game about the Monkey King!',
+		controlsGuide: 'Use the arrow keys to move and the space bar to jump.',
 		bannerImg: '/img/monkeyKing.png',
 		devs: [userId3, userId4, userId5],
 		path: './monkeyKingGame.jsx',
@@ -32,6 +36,8 @@ const gameSeed = [
 	{
 		_id: gameId3,
 		title: 'Froggy',
+		description: 'A game about a frog!',
+		controlsGuide: 'Use the arrow keys to move and the space bar to jump.',
 		bannerImg: '/img/froggy.png',
 		devs: [userId5, userId1],
 		path: './froggyGame.jsx',
@@ -39,6 +45,8 @@ const gameSeed = [
 	{
 		_id: gameId4,
 		title: 'Starboy',
+		description: 'Collect the stars while avoiding the bombs!',
+		controlsGuide: 'Use the left and right arrow keys to move and the up key to jumpt.',
 		bannerImg: '/img/starboy.png',
 		devs: [userId2, userId3],
 		path: './starboyGame.jsx',

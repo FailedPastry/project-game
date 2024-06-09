@@ -108,15 +108,17 @@ const PrivateProfileSection = ({ user }) => {
 
 	return (
 		<div className="profile">
-			{data?.user?.scores && data?.user?.scores.length > 0 ?
-				data?.user?.scores.map((score, index) => (
-					<div key={score._id} className="score_entry">
-						<div className="game">{score.game.title}</div>
-						<div className="score">{score.score}</div>
-					</div>
-				))
-				: <div>No scores</div>
-			}
+			<div className='complete-scores'>
+				{data?.user?.scores && data?.user?.scores.length > 0 ?
+					data?.user?.scores.map((score, index) => (
+						<div key={score._id} className="score_entry">
+							<div className="game">{score.game.title}</div>
+							<div className="score">{score.score}</div>
+						</div>
+					))
+					: <div>No scores</div>
+				}
+			</div>
 			<div className="game_btns">
 				<Link to="/profile/upload_game" className="profile_btn">New Game</Link>
 			</div>

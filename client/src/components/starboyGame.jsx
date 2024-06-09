@@ -76,6 +76,8 @@ const StarboyGame = () => {
 		}
 
 		function create() {
+			game.canvas.focus();
+
 			//  A simple background for our game
 			this.add.image(400, 300, 'sky');
 
@@ -232,10 +234,18 @@ const StarboyGame = () => {
 					default:
 						break;
 				}
-			});
+			}, { passive: true });
 
 			arrowKeys.addEventListener('touchend', () => {
 				game.registry.set('direction', null);
+			});
+
+			let audioContext = new (window.AudioContext ||
+				window.webkitAudioContext)();
+			document.addEventListener('click', function () {
+				audioContext.resume().then(() => {
+					console.log('Playback resumed successfully');
+				});
 			});
 		}
 
@@ -244,48 +254,49 @@ const StarboyGame = () => {
 				return;
 			}
 
-			if (cursors.left.isDown) {
-				player.setVelocityX(-160);
+			let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-				player.anims.play('left', true);
-			} else if (cursors.right.isDown) {
-				player.setVelocityX(160);
-
-				player.anims.play('right', true);
-			} else {
-				player.setVelocityX(0);
-
-				player.anims.play('turn');
-			}
-
-			if (cursors.up.isDown && player.body.touching.down) {
-				player.setVelocityY(-330);
-			}
-
-			let direction = game.registry.get('direction');
-
-			switch (direction) {
-				case 'up':
-					if (player.body.touching.down) {
-						player.setVelocityY(-330);
-					}
-					break;
-				case 'down':
-					player.setVelocityX(0);
-					player.anims.play('turn');
-					break;
-				case 'left':
+			if (!isMobile) {
+				if (cursors.left.isDown) {
 					player.setVelocityX(-160);
 					player.anims.play('left', true);
-					break;
-				case 'right':
+				} else if (cursors.right.isDown) {
 					player.setVelocityX(160);
 					player.anims.play('right', true);
-					break;
-				default:
+				} else {
 					player.setVelocityX(0);
 					player.anims.play('turn');
-					break;
+				}
+
+				if (cursors.up.isDown && player.body.touching.down) {
+					player.setVelocityY(-330);
+				}
+			} else {
+				let direction = game.registry.get('direction');
+
+				switch (direction) {
+					case 'up':
+						if (player.body.touching.down) {
+							player.setVelocityY(-330);
+						}
+						break;
+					case 'down':
+						player.setVelocityX(0);
+						player.anims.play('turn');
+						break;
+					case 'left':
+						player.setVelocityX(-160);
+						player.anims.play('left', true);
+						break;
+					case 'right':
+						player.setVelocityX(160);
+						player.anims.play('right', true);
+						break;
+					default:
+						player.setVelocityX(0);
+						player.anims.play('turn');
+						break;
+				}
 			}
 		}
 

@@ -74,6 +74,8 @@ export const GET_ALL_GAMES = gql`
 		allGames {
 			_id
 			title
+			description
+			controlsGuide
 			bannerImg
 			devs {
 				_id
@@ -89,6 +91,8 @@ export const GET_GAME = gql`
 		singleGame(gameId: $gameId) {
 			_id
 			title
+			description
+			controlsGuide
 			bannerImg
 			devs {
 				_id

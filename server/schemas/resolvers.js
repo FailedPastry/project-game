@@ -131,9 +131,9 @@ const resolvers = {
 			return score;
 		},
 
-		addGame: async (parent, { title, bannerImg, devs, path }) => {
+		addGame: async (parent, { title, description, controlsGuide, bannerImg, devs, path }) => {
 			const devUsers = await User.find({ _id: { $in: devs } });
-			const newGame = await Game.create({ title, bannerImg, devs: devUsers.map(user => user._id), path});
+			const newGame = await Game.create({ title, description, controlsGuide, bannerImg, devs: devUsers.map(user => user._id), path});
 		  
 			// Populate the devs field with user data before returning the game
 			const populatedGame = await Game.findById(newGame._id).populate('devs').exec();
@@ -147,11 +147,11 @@ const resolvers = {
 			return game;
 		},
 
-		updateGame: async (parent, { gameId, title, bannerImg, devs, path }) => {
+		updateGame: async (parent, { gameId, title, description, controlsGuide, bannerImg, devs, path }) => {
 			const devUsers = await User.find({ _id: { $in: devs } });
 			const updatedGame = await Game.findByIdAndUpdate (
 				gameId,
-				{ $set: { title, bannerImg, devs: devUsers.map(user => user._id), path } },
+				{ $set: { title, description, controlsGuide, bannerImg, devs: devUsers.map(user => user._id), path } },
 				{ new: true }
 			).populate('devs');
 			return updatedGame;
