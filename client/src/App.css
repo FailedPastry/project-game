@@ -1,3 +1,10 @@
+:root {
+	--arcadeRed: #ff0000;
+	--arcadeGreen: #00ff00;
+	--arcadeBlue: #0000ff;
+	--arcadeYellow: #ffff00;
+}
+
 
 * {
   margin: 0;
@@ -7,12 +14,13 @@
 
   body {
     font-family: 'Arial', sans-serif;
-    background-color: #000; /* Black background for the game */
-    color: #fff; /* White text */
+    background-color: black; /* Black background for the game */
+    color: white; /* White text */
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100vh;
+	/* width: 100vw; */
     /* overflow: hidden; */
 
 	/* font-family: "Pixelify Sans", sans-serif; */
@@ -24,7 +32,7 @@
     background-color: #222;
     padding: 1rem;
     text-align: center;
-    color: #fff;
+    color: white;
     font-size: 20px;
     border-bottom: 2px solid #444;
 	display: flex;
@@ -44,12 +52,12 @@
   .game-container {
     position: relative;
 	width: 100%;
-	height: 50vh;
     max-width: 800px;
-    max-height: 600px;
-    /* background-color: #111; Dark background for the game area */
-    border: 2px solid #fff;
+    /* max-height: 600px; */
+    background-color: #111; /* Dark background for the game area */
+    border: 2px solid white;
     margin-top: 2rem;
+	overflow: hidden;
   }
   
   /* Player ship */
@@ -60,7 +68,7 @@
     transform: translateX(-50%);
     width: 40px;
     height: 40px;
-    background-color: #0f0; /* Green color for the player ship */
+    background-color: var(--arcadeGreen); /* Green color for the player ship */
     border-radius: 5px; /* Rounded corners */
   }
   
@@ -69,7 +77,7 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    background-color: #f00; /* Red color for the invaders */
+    background-color: var(--arcadeRed); /* Red color for the invaders */
     border-radius: 5px; /* Rounded corners */
   }
   
@@ -78,7 +86,7 @@
     position: absolute;
     width: 5px;
     height: 10px;
-    background-color: #ff0; /* Yellow color for the bullets */
+    background-color: var(--arcadeYellow); /* Yellow color for the bullets */
     border-radius: 2px; /* Rounded corners */
   }
   
@@ -116,7 +124,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3rem;
-    color: #f00; /* Red color for game over text */
+    color: var(--arcadeRed); /* Red color for game over text */
     display: none; /* Hidden by default */
   }
   
@@ -150,6 +158,7 @@
 .gamebox-container {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 5%;
 }
 
 .profile {
@@ -182,10 +191,6 @@ a {
 	color: #fff;
 }
 
-a:hover {
-	color: #00ff00;
-}
-
 .leaderboard {
 	display: flex;
 	flex-direction: column;
@@ -193,6 +198,7 @@ a:hover {
 	justify-content: center;
 	margin: 10px 0px;
 	padding: 25px;
+	font-family: 'Pixelify Sans', sans-serif;
 }
 
 .board_entry {
@@ -202,14 +208,14 @@ a:hover {
     width: 90%;
     margin: 10px 0px;
     padding: 5px 15px;
-    border: #00ff00 2px solid;
+    border: var(--arcadeGreen) 2px solid;
     border-radius: 10px;
 }
 
 .board_entry > div {
     margin: 0px 10px;
 	display: flex;
-	justify-content: center;
+	justify-content: start;
 	align-items: center;
 }
 
@@ -238,7 +244,6 @@ a:hover {
 
 .devs-list {
 	display: flex;
-	/* flex-direction: column; */
 	justify-content: space-around;
 }
 
@@ -313,9 +318,55 @@ a:hover {
 }
 
 a:hover {
-	color: red;
+	color: var(--arcadeRed);
 }
 
 a:active {
-	color: #00ff00;
+	color: var(--arcadeGreen);
+}
+
+button:hover {
+	color: var(--arcadeRed);
+}
+
+button:active {
+	color: var(--arcadeGreen);
+}
+
+.control-banner {
+	width: 100%;
+	top: 200px;
+	display: none;
+}
+
+#arrow-keys {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#arrow-keys > * {
+	margin: 10px;
+	width: 25%;
+	height: 0;
+	padding-top: 12.5%;
+	padding-bottom: 12.5%;
+	background-color: var(--arcadeRed);
+	border-radius: 50px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 3em;
+}
+
+canvas {
+	width: 100%;
+}
+
+@media (pointer: fine) {
+	#arrow-keys {
+		display: none;
+	}
 }
