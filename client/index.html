@@ -1,12 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Space Invaders Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Invaders Game</title>
+  <!-- <link rel="stylesheet" href="../client/src/App.css"> -->
+  <!-- Link to your CSS file -->
 </head>
 <body>
-	<div id="root"></div>
-    <script type="module" src="/src/index.jsx"></script>
+  <div id="root">
+    <!-- Navbar -->
+    <div class="navbar">
+      <a href="#home">Home</a>
+      <a href="#game">Game</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#login">Login</a>
+      <a href="#register">Register</a>
+      <a href="#donate">Donate</a>
+    </div>
+
+    <!-- Home Section -->
+    <div id="home" class="home">
+      <h1>Welcome to Space Invaders</h1>
+      <a href="#game" class="link-button">Start Game</a>
+      <a href="#leaderboard" class="link-button">Leaderboard</a>
+      <a href="#login" class="link-button">Login</a>
+      <a href="#register" class="link-button">Register</a>
+      <a href="#donate" class="link-button">Donate</a>
+    </div>
+
+    <!-- Game Section -->
+    <div id="game" class="game-window">
+      <div class="score">Score: 0</div>
+      <div class="game-board">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div class="player" id="player"></div>
+        <div class="enemy" id="enemy" style="top: 50px; left: 100px;"></div>
+      </div>
+      <div class="info">
+        <div>Lives: 3</div>
+        <div>Level: 1</div>
+      </div>
+    </div>
+
+    <!-- Leaderboard Section -->
+    <div id="leaderboard" class="leaderboard">
+      <h1>Leaderboard</h1>
+      <ul>
+        <li>Player1 - 1000</li>
+        <li>Player2 - 900</li>
+        <li>Player3 - 800</li>
+      </ul>
+    </div>
+
+    <!-- Login Section -->
+    <div id="login" class="login">
+      <form>
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <!-- Register Section -->
+    <div id="register" class="register">
+      <form>
+        <input type="text" placeholder="Username">
+        <input type="email" placeholder="Email">
+        <input type="password" placeholder="Password">
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+    <!-- Donate Section -->
+    <div id="donate" class="donate">
+      <button>Donate $5</button>
+      <button>Donate $10</button>
+      <button>Donate $20</button>
+    </div>
+
+    <!-- Success Section -->
+    <div id="success" class="success">
+      <h1>Donation Successful</h1>
+    </div>
+
+    <!-- Cancel Section -->
+    <div id="cancel" class="cancel">
+      <h1>Donation Cancelled</h1>
+    </div>
+  </div><!-- Link to your game script -->
+  <img id="invadersImg" style="display: none;" src="/img/invaders.png" alt="" />
+  <script type="module" src="src/index.jsx"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';  // Ensure you have some basic styles for the Home component
 
+// TODO remove this file
+
 const Home = () => {
   return (
     <div className="home">

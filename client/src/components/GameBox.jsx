@@ -4,6 +4,12 @@ import Player from './Player';
 import Enemy from './Enemy';
 import Score from './ScoreBoard';
 
+
+/////////////
+// this is the div implementation, unfinished, do not use
+
+
+
 function GameWindow() {
   const [score, setScore] = useState(0);
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 50 });

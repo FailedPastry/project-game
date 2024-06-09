@@ -1,5 +1,5 @@
 // /src/pages/Game.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 const Canvas = styled.canvas`
@@ -13,7 +13,27 @@ const Info = styled.div`
   margin-top: 10px;
 `;
 
+
+const generateEnemies = (level) => {
+  const newEnemies = [];
+  for (let i = 0; i < level * 5; i++) {
+    newEnemies.push({
+      x: 50 + (i % 5) * 60,
+      y: 50 + Math.floor(i / 5) * 60,
+      width: 40,
+      height: 40,
+      speed: 2 + level,
+    });
+  }
+  return newEnemies;
+};
+
+const invadersImg = document.getElementById('invadersImg')
+
+// this is the canvas implementation that works
+
 const Game = () => {
+  console.log("GAME")
   const canvasRef = useRef(null);
   const [context, setContext] = useState(null);
   const [player, setPlayer] = useState({
@@ -29,32 +49,23 @@ const Game = () => {
   });
   const [enemies, setEnemies] = useState(generateEnemies(1));
   const [powerUps, setPowerUps] = useState([]);
+  const [lost, setLost] = useState(false);
 
+  // enemies.push({})
+  // setEnemies([...enemies, {}])
+  // setEnemies([...enemies])
+  
+  useEffect(() => {
+    console.log(enemies)
+  }, [enemies]) // oldEnemies === newEnemies   // [] !== []
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     setContext(canvas.getContext('2d'));
   }, []);
 
-  useEffect(() => {
-    if (context) {
-      const intervalId = setInterval(update, 1000 / 60); // 60 fps
-      return () => clearInterval(intervalId);
-    }
-  }, [context, player, enemies, powerUps]);
-
-  const generateEnemies = (level) => {
-    const newEnemies = [];
-    for (let i = 0; i < level * 5; i++) {
-      newEnemies.push({
-        x: 50 + (i % 5) * 60,
-        y: 50 + Math.floor(i / 5) * 60,
-        width: 40,
-        height: 40,
-        speed: 2 + level,
-      });
-    }
-    return newEnemies;
-  };
+  console.log("I am in Game")
+  
 
   const handleKeyDown = (e) => {
     switch (e.key) {
@@ -88,9 +99,14 @@ const Game = () => {
       rect1.y + rect1.height > rect2.y
     );
   };
+  
+  // update = { captures: [enemies, context], func: thecode}
 
-  const update = () => {
+  const update = useCallback(() => {
+    // console.log({context})
     if (!context) return;
+    
+    if (lost) return;
 
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
@@ -115,8 +131,9 @@ const Game = () => {
         enemy.speed *= -1;
         enemy.y += 20;
       }
-      context.fillStyle = 'blue';
-      context.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+      // context.fillStyle = 'blue';
+      // context.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+      context.drawImage(invadersImg, enemy.x, enemy.y, enemy.width, enemy.height);
 
       // Check for bullet collision with enemies
       player.bullets.forEach((bullet, bulletIndex) => {
@@ -157,9 +174,18 @@ const Game = () => {
 
     if (player.lives <= 0) {
       alert('Game Over');
+      setLost(true)
       // Reset game or handle game over logic
     }
-  };
+  }, [context, player, enemies, powerUps, lost]);
+  
+  useEffect(() => {
+    // console.log({context})
+    if (context) {
+      const intervalId = setInterval(update, 1000 / 60); // 60 fps
+      return () => clearInterval(intervalId);
+    }
+  }, [context, update]);
 
   return (
     <div>
@@ -168,6 +194,7 @@ const Game = () => {
         <div>Score: {player.score}</div>
         <div>Lives: {player.lives}</div>
         <div>Level: {player.level}</div>
+        { lost && <div>You lost!</div>}
       </Info>
     </div>
   );
