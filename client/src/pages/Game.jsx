@@ -1,6 +1,9 @@
-// /src/pages/Game.js
+// /src/pages/Game.jsx
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
+import BulletController from '../components/BulletController';
+import EnemyController from '../components/EnemyController';
+import Player from '../components/Player';
 
 const Canvas = styled.canvas`
   border: 2px solid black;
@@ -13,32 +16,12 @@ const Info = styled.div`
   margin-top: 10px;
 `;
 
-
-const generateEnemies = (level) => {
-  const newEnemies = [];
-  for (let i = 0; i < level * 5; i++) {
-    newEnemies.push({
-      x: 50 + (i % 5) * 60,
-      y: 50 + Math.floor(i / 5) * 60,
-      width: 40,
-      height: 40,
-      speed: 2 + level,
-    });
-  }
-  return newEnemies;
-};
-
-const invadersImg = document.getElementById('invadersImg')
-
-// this is the canvas implementation that works
-
 const Game = () => {
-  console.log("GAME")
   const canvasRef = useRef(null);
   const [context, setContext] = useState(null);
   const [player, setPlayer] = useState({
-    x: 200,
-    y: 400,
+    x: 400,
+    y: 500,
     width: 50,
     height: 50,
     speed: 5,
@@ -47,38 +30,37 @@ const Game = () => {
     lives: 3,
     level: 1
   });
-  const [enemies, setEnemies] = useState(generateEnemies(1));
   const [powerUps, setPowerUps] = useState([]);
   const [lost, setLost] = useState(false);
 
-  // enemies.push({})
-  // setEnemies([...enemies, {}])
-  // setEnemies([...enemies])
-  
-  useEffect(() => {
-    console.log(enemies)
-  }, [enemies]) // oldEnemies === newEnemies   // [] !== []
-  
+  const enemyBulletController = useRef(null);
+  const playerBulletController = useRef(null);
+  const enemyController = useRef(null);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     setContext(canvas.getContext('2d'));
-  }, []);
+    enemyBulletController.current = new BulletController(canvas, 10, 'red', true);
+    playerBulletController.current = new BulletController(canvas, 10, 'yellow', true);
+    enemyController.current = new EnemyController(canvas, enemyBulletController.current, playerBulletController.current);
 
-  console.log("I am in Game")
-  
+    // Log to verify
+    console.log('playerBulletController', playerBulletController.current);
+    console.log('enemyController', enemyController.current);
+  }, []);
 
   const handleKeyDown = (e) => {
     switch (e.key) {
       case 'ArrowLeft':
-        setPlayer(prev => ({ ...prev, x: Math.max(prev.x - prev.speed, 0) }));
+        setPlayer((prev) => ({ ...prev, x: Math.max(prev.x - prev.speed, 0) }));
         break;
       case 'ArrowRight':
-        setPlayer(prev => ({ ...prev, x: Math.min(prev.x + prev.speed, context.canvas.width - prev.width) }));
+        setPlayer((prev) => ({ ...prev, x: Math.min(prev.x + prev.speed, context.canvas.width - prev.width) }));
         break;
       case ' ':
-        setPlayer(prev => ({
+        setPlayer((prev) => ({
           ...prev,
-          bullets: [...prev.bullets, { x: prev.x + 25, y: prev.y, width: 5, height: 10 }]
+          bullets: [...prev.bullets, { x: prev.x + 25, y: prev.y, width: 5, height: 10 }],
         }));
         break;
       default:
@@ -99,14 +81,9 @@ const Game = () => {
       rect1.y + rect1.height > rect2.y
     );
   };
-  
-  // update = { captures: [enemies, context], func: thecode}
 
   const update = useCallback(() => {
-    // console.log({context})
-    if (!context) return;
-    
-    if (lost) return;
+    if (!context || lost) return;
 
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
@@ -120,37 +97,23 @@ const Game = () => {
       context.fillStyle = 'yellow';
       context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
       if (bullet.y < 0) {
-        setPlayer(prev => ({ ...prev, bullets: prev.bullets.filter((_, i) => i !== index) }));
+        setPlayer((prev) => ({ ...prev, bullets: prev.bullets.filter((_, i) => i !== index) }));
       }
     });
 
     // Draw enemies
-    enemies.forEach((enemy, enemyIndex) => {
-      enemy.x += enemy.speed;
-      if (enemy.x + enemy.width > context.canvas.width || enemy.x < 0) {
-        enemy.speed *= -1;
-        enemy.y += 20;
-      }
-      // context.fillStyle = 'blue';
-      // context.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-      context.drawImage(invadersImg, enemy.x, enemy.y, enemy.width, enemy.height);
+    if (enemyController.current) {
+      enemyController.current.draw(context);
+    }
 
-      // Check for bullet collision with enemies
-      player.bullets.forEach((bullet, bulletIndex) => {
-        if (checkCollision(bullet, enemy)) {
-          setEnemies(prev => prev.filter((_, i) => i !== enemyIndex));
-          setPlayer(prev => ({
-            ...prev,
-            bullets: prev.bullets.filter((_, i) => i !== bulletIndex),
-            score: prev.score + 10
-          }));
-        }
-      });
-
-      // Check for enemy collision with player
-      if (checkCollision(enemy, player)) {
-        setEnemies(prev => prev.filter((_, i) => i !== enemyIndex));
-        setPlayer(prev => ({ ...prev, lives: prev.lives - 1 }));
+    // Check for bullet collision with enemies
+    player.bullets.forEach((bullet, bulletIndex) => {
+      if (enemyController.current.collideWith(bullet)) {
+        setPlayer((prev) => ({
+          ...prev,
+          bullets: prev.bullets.filter((_, i) => i !== bulletIndex),
+          score: prev.score + 10,
+        }));
       }
     });
 
@@ -160,27 +123,24 @@ const Game = () => {
       context.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
       powerUp.y += 2;
       if (checkCollision(powerUp, player)) {
-        setPowerUps(prev => prev.filter((_, i) => i !== index));
-        // Add power-up effect to player
-        setPlayer(prev => ({ ...prev, score: prev.score + 50 }));
+        setPowerUps((prev) => prev.filter((_, i) => i !== index));
+        setPlayer((prev) => ({ ...prev, score: prev.score + 50 }));
       }
     });
 
     // Check for level completion
-    if (enemies.length === 0) {
-      setPlayer(prev => ({ ...prev, level: prev.level + 1 }));
-      setEnemies(generateEnemies(player.level + 1));
+    if (enemyController.current && enemyController.current.enemyRows.flat().length === 0) {
+      setPlayer((prev) => ({ ...prev, level: prev.level + 1 }));
+      enemyController.current.createEnemies(player.level + 1);
     }
 
     if (player.lives <= 0) {
       alert('Game Over');
-      setLost(true)
-      // Reset game or handle game over logic
+      setLost(true);
     }
-  }, [context, player, enemies, powerUps, lost]);
-  
+  }, [context, player, powerUps, lost]);
+
   useEffect(() => {
-    // console.log({context})
     if (context) {
       const intervalId = setInterval(update, 1000 / 60); // 60 fps
       return () => clearInterval(intervalId);
@@ -189,12 +149,12 @@ const Game = () => {
 
   return (
     <div>
-      <Canvas ref={canvasRef} width={500} height={500} />
+      <Canvas ref={canvasRef} width={800} height={600} />
       <Info>
         <div>Score: {player.score}</div>
         <div>Lives: {player.lives}</div>
         <div>Level: {player.level}</div>
-        { lost && <div>You lost!</div>}
+        {lost && <div>You lost!</div>}
       </Info>
     </div>
   );
