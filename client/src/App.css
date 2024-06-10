@@ -1,3 +1,14 @@
+:root {
+	--arcadeRed: #ff0000;
+	--arcadeGreen: #00ff00;
+	--arcadeBlue: #0000ff;
+	--arcadeYellow: #ffff00;
+	--navBackround: #222;
+	--navAccent: #444;
+	--gameboxBackground: #111;
+	--gameInfoBox: #015568;
+}
+
 
 * {
   margin: 0;
@@ -7,37 +18,50 @@
 
   body {
     font-family: 'Arial', sans-serif;
-    background-color: #000; /* Black background for the game */
-    color: #fff; /* White text */
+    background-color: black; /* Black background for the game */
+    color: white; /* White text */
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100vh;
+	/* width: 100vw; */
     /* overflow: hidden; */
+
+	/* font-family: "Pixelify Sans", sans-serif; */
   }
   
   /* Navbar styles */
   .navbar {
     width: 100vw;
-    background-color: #222;
+    background-color: var(--navBackround);
     padding: 1rem;
     text-align: center;
-    color: #fff;
-    font-size: 1.5rem;
-    border-bottom: 2px solid #444;
+    color: white;
+    font-size: 20px;
+    border-bottom: 2px solid var(--navAccent);
 	display: flex;
 	justify-content: space-around;
+  }
+
+  .navbar button{
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
   }
   
   /* Game container */
   .game-container {
     position: relative;
-    width: 800px;
-    height: 600px;
-    background-color: #111; /* Dark background for the game area */
-    border: 2px solid #fff;
+	width: 100%;
+    max-width: 800px;
+    /* max-height: 600px; */
+    background-color: var(--gameboxBackground); /* Dark background for the game area */
+    border: 2px solid white;
     margin-top: 2rem;
-	margin-bottom: 100px;
+	overflow: hidden;
   }
   
   /* Player ship */
@@ -48,7 +72,7 @@
     transform: translateX(-50%);
     width: 40px;
     height: 40px;
-    background-color: #0f0; /* Green color for the player ship */
+    background-color: var(--arcadeGreen); /* Green color for the player ship */
     border-radius: 5px; /* Rounded corners */
   }
   
@@ -57,7 +81,7 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    background-color: #f00; /* Red color for the invaders */
+    background-color: var(--arcadeRed); /* Red color for the invaders */
     border-radius: 5px; /* Rounded corners */
   }
   
@@ -66,7 +90,7 @@
     position: absolute;
     width: 5px;
     height: 10px;
-    background-color: #ff0; /* Yellow color for the bullets */
+    background-color: var(--arcadeYellow); /* Yellow color for the bullets */
     border-radius: 2px; /* Rounded corners */
   }
   
@@ -104,7 +128,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 3rem;
-    color: #f00; /* Red color for game over text */
+    color: var(--arcadeRed); /* Red color for game over text */
     display: none; /* Hidden by default */
   }
   
@@ -138,6 +162,7 @@
 .gamebox-container {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 5%;
 }
 
 .profile {
@@ -163,4 +188,247 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.leaderboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 10px 0px;
+	padding: 25px;
+	font-family: 'Pixelify Sans', sans-serif;
+	font-size: 20px;
+}
+
+.board_entry {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 90%;
+    margin: 10px 0px;
+    padding: 5px 15px;
+    border: var(--arcadeGreen) 2px solid;
+    border-radius: 10px;
+}
+
+.board_entry > div {
+    margin: 0px 10px;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+}
+
+.desktop-menu {
+	display: none;
+}
+
+.mobile-menu {
+	display: flex;
+	flex-direction: column;
+}
+
+.mobile-dropdown {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 55px;
+	background-color: var(--navBackround);
+	opacity: .95;
+	border-bottom: 2px solid var(--navAccent);
+	border-radius: 10px;
+	width: 100%;
+	left: 0;
+}
+
+.game-info {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 10px 0px;
+	padding: 25px;
+	border: 25px solid var(--gameInfoBox);
+	width: 98.5%;
+	left: .8%;
+	top: -12px;
+}
+
+.devs-list {
+	display: flex;
+	justify-content: space-around;
+}
+
+.devs-list a {
+	margin: 10px;
+	font-size: 20px;
+}
+
+.login {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 10px 0px;
+	padding: 25px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin: 10px 0px;
+	padding: 25px;
+}
+
+.portfolio button {
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	margin: 10px;
+}
+
+.profile_btn {
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	margin: 10px;
+}
+
+.form-btn {
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+	color: inherit;
+	font: inherit;
+	margin: 10px;
+}
+
+.highscore1 > * {
+	padding:10px;
+}
+
+@media screen and (min-width: 768px) {
+	.desktop-menu {
+		display: flex;
+		justify-content: space-around;
+		align-content: center;
+		width: 100%;
+	}
+
+	.mobile-menu {
+		display: none;
+	}
+}
+
+a:hover {
+	color: var(--arcadeRed);
+}
+
+a:active {
+	color: var(--arcadeGreen);
+}
+
+button:hover {
+	color: var(--arcadeRed);
+}
+
+button:active {
+	color: var(--arcadeGreen);
+}
+
+.control-banner {
+	position: relative;
+	width: 105%;
+	/* top: 200px; */
+	left: -2.5%;
+	/* display: none; */
+}
+
+.play-container {
+	overflow: hidden;
+	/* display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; */
+}
+
+#arrow-keys {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#arrow-keys > * {
+	margin: 10px;
+	width: 25%;
+	height: 0;
+	padding-top: 12.5%;
+	padding-bottom: 12.5%;
+	background-color: var(--arcadeRed);
+	border-radius: 50px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 3em;
+}
+
+canvas {
+	width: 100%;
+}
+
+@media (pointer: fine) {
+	#arrow-keys {
+		display: none;
+	}
+}
+
+.complete-scores {
+	margin-bottom: 25px;
+}
+
+.info {
+	text-align: center;
+	margin-top: 10px;
+}
+
+.info div {
+	margin: 5px 0;
+}
+
+/* .game-board {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: #000;
+	width: 800px;
+	height: 600px;
+	position: relative;
+	overflow: hidden;
+	border: 2px solid #333;
+	border-radius: 10px;
+  } */
+
+.invaders-btn {
+	background: var(--gameboxBackground);
+	color: inherit;
+	font: inherit;
+	margin: 10px;
 }

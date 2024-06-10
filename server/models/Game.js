@@ -6,6 +6,14 @@ const GameSchema = new Schema(
 	  type: String,
 	  required: true,
 	},
+	description: {
+	  type: String,
+	  required: true,
+	},
+	controlsGuide: {
+	  type: String,
+	  required: true,
+	},
 	bannerImg: {
 	  type: String,
 	  required: false,
@@ -15,7 +23,11 @@ const GameSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		}
-	]
+	],
+	path: {
+	  type: String,
+	  required: true,
+	},
   },
 );
 

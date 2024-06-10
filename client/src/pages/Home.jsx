@@ -1,4 +1,5 @@
 import React from 'react';
+import gameBox from '../components/GameBox';
 
 const Home = () => {
 	return (

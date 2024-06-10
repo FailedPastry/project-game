@@ -29,8 +29,11 @@ const typeDefs = gql`
   type Game {
 	_id: ID!
 	title: String!
+	description: String!
+	controlsGuide: String!
 	bannerImg: String
 	devs: [User]
+	path: String!
    }
 
   type Query {
@@ -46,20 +49,17 @@ const typeDefs = gql`
 
   }
 
-  type Mutation {
-	addUser(username: String!, email: String!, password: String!): Auth
-	login(email: String!, password: String!): Auth
-	updateUser(userId: ID!, username: String!, email: String!, password: String!): User
-	deleteUser(userId: ID!): User
-	addScore(userId: ID!, score: Int!, gameId: ID!): Score
-	deleteScore(scoreId: ID!): Score
-	addGame(title: String!, bannerImg: String, devs: [ID!]): Game
-	deleteGame(gameId: ID!): Game
-	updateGame(gameId: ID!, title: String!, bannerImg: String, devs: [ID!]): Game
-	
-
-
-  }
+type Mutation {
+    addUser(username: String!, email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth
+    updateUser(userId: ID!, username: String!, email: String!, password: String!): User
+    deleteUser(userId: ID!): User
+    addScore(userId: ID!, score: Int!, gameId: ID!): Score
+    deleteScore(scoreId: ID!): Score
+    addGame(title: String!, description: String!, controlsGuide: String!, bannerImg: String, devs: [ID!], path: String!): Game
+    deleteGame(gameId: ID!): Game
+    updateGame(gameId: ID!, title: String!, description: String!, controlsGuide: String!, bannerImg: String, devs: [ID!], path: String!): Game
+}
 `;
 
 module.exports = typeDefs;
