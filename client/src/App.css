@@ -432,3 +432,9 @@ canvas {
 	font: inherit;
 	margin: 10px;
 }
+
+.empty-frame {
+	width: 800px;
+	height: 600px;
+	background-color: var(--gameboxBackground);
+}

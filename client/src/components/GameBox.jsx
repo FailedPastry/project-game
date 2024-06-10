@@ -29,7 +29,11 @@ const gameBox = () => {
             case './invadersGame.jsx':
 				return <InvadersGame />;
             default:
-                return null;
+                return (
+					<div className="empty-frame">
+						<h1>Coming Soon!</h1>
+					</div>
+				);
         }
     }
 
