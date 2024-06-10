@@ -6,14 +6,11 @@ class BulletController {
   bullets = [];
   timerTillNextBulletAllowed = 0;
 
-  constructor(canvas, maxBulletsAtATime, bulletColor, soundEnabled) {
+  constructor(canvas, maxBulletsAtATime, bulletColor, isPlayerBullet) {
     this.canvas = canvas;
     this.maxBulletsAtATime = maxBulletsAtATime;
     this.bulletColor = bulletColor;
-    this.soundEnabled = soundEnabled;
-
-    this.shootSound = new Audio('/sounds/shoot.wav');
-    this.shootSound.volume = 0.1;
+    this.isPlayerBullet = isPlayerBullet;
   }
 
   draw(ctx) {
@@ -22,6 +19,7 @@ class BulletController {
     );
 
     this.bullets.forEach((bullet) => bullet.draw(ctx));
+
     if (this.timerTillNextBulletAllowed > 0) {
       this.timerTillNextBulletAllowed--;
     }
@@ -47,10 +45,6 @@ class BulletController {
     ) {
       const bullet = new Bullet(this.canvas, x, y, velocity, this.bulletColor);
       this.bullets.push(bullet);
-      if (this.soundEnabled) {
-        this.shootSound.currentTime = 0;
-        this.shootSound.play();
-      }
       this.timerTillNextBulletAllowed = timeTillNextBulletAllowed;
     }
   }

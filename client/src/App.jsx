@@ -43,16 +43,19 @@ function App() {
         {/* TODO is navbar supposed to be outside router */}
         <Navbar />
         <Routes>
+        {/* <Route exact path="/" element={<Home />} /> */}
           {/* GameBox tries to create divs */}
           {/* <Route path="/" element={<GameBox />} /> */}
-          {/* <Route exact path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} /> */}
+          {/* 
+              
               {/* Game uses the canvas */}
+              
               <Route path="/" element={<Game />} />
-              {/* <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/donate" element={<Donate />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/login" element={<Login />} />
+              {/* <Route path="/donate" element={<Donate />} />
               <Route path="/success" element={<Success />} />
-              <Route path="/cancel" element={<Cancel />} /> */}
+              <Route path="/cancel" element={<Cancel />} />  */}
         </Routes>
       </Router>
 	  </ApolloProvider>

@@ -1,4 +1,3 @@
-// /src/components/EnemyController.jsx
 import React from 'react';
 import Enemy from './Enemy';
 import MovingDirection from './MovingDirection';
@@ -15,10 +14,8 @@ class EnemyController {
   enemyRows = [];
 
   currentDirection = MovingDirection.right;
-  xVelocity = 0;
-  yVelocity = 0;
-  defaultXVelocity = 1;
-  defaultYVelocity = 1;
+  xVelocity = 1;
+  yVelocity = 1;
   moveDownTimerDefault = 30;
   moveDownTimer = this.moveDownTimerDefault;
   fireBulletTimerDefault = 100;
@@ -32,7 +29,7 @@ class EnemyController {
     this.enemyDeathSound = new Audio('/sounds/enemy-death.wav');
     this.enemyDeathSound.volume = 0.1;
 
-    this.createEnemies();
+    this.createEnemies(1); // Initialize with level 1 enemies
   }
 
   draw(ctx) {
@@ -47,9 +44,7 @@ class EnemyController {
   collisionDetection() {
     this.enemyRows.forEach((enemyRow) => {
       enemyRow.forEach((enemy, enemyIndex) => {
-        console.log('Checking collision with enemy:', enemy); // Debugging log
         if (this.playerBulletController.collideWith(enemy)) {
-          console.log('Collision detected with enemy:', enemy); // Debugging log
           this.enemyDeathSound.currentTime = 0;
           this.enemyDeathSound.play();
           enemyRow.splice(enemyIndex, 1);
@@ -88,8 +83,8 @@ class EnemyController {
 
   updateVelocityAndDirection() {
     for (const enemyRow of this.enemyRows) {
-      if (this.currentDirection == MovingDirection.right) {
-        this.xVelocity = this.defaultXVelocity;
+      if (this.currentDirection === MovingDirection.right) {
+        this.xVelocity = 1;
         this.yVelocity = 0;
         const rightMostEnemy = enemyRow[enemyRow.length - 1];
         if (rightMostEnemy.x + rightMostEnemy.width >= this.canvas.width) {
@@ -101,7 +96,7 @@ class EnemyController {
           break;
         }
       } else if (this.currentDirection === MovingDirection.left) {
-        this.xVelocity = -this.defaultXVelocity;
+        this.xVelocity = -1;
         this.yVelocity = 0;
         const leftMostEnemy = enemyRow[0];
         if (leftMostEnemy.x <= 0) {
@@ -118,7 +113,7 @@ class EnemyController {
 
   moveDown(newDirection) {
     this.xVelocity = 0;
-    this.yVelocity = this.defaultYVelocity;
+    this.yVelocity = 1;
     if (this.moveDownTimer <= 0) {
       this.currentDirection = newDirection;
       return true;
@@ -133,7 +128,8 @@ class EnemyController {
     });
   }
 
-  createEnemies() {
+  createEnemies(level = 1) {
+    this.enemyRows = [];
     this.enemyMap.forEach((row, rowIndex) => {
       this.enemyRows[rowIndex] = [];
       row.forEach((enemyNumber, enemyIndex) => {
@@ -147,7 +143,6 @@ class EnemyController {
   }
 
   collideWith(sprite) {
-    console.log('Checking collision with sprite:', sprite); // Debugging log
     return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
   }
 }

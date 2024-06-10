@@ -1,4 +1,3 @@
-// /src/components/Player.jsx
 import React from 'react';
 
 class Player {
@@ -12,7 +11,13 @@ class Player {
     this.width = 50;
     this.height = 48;
     this.image = new Image();
-    this.image.src = '/images/player.png';
+    this.image.src = "/images/player.png"; // Ensure this path is correct
+    this.image.onload = () => {
+      console.log('Player image loaded');
+    };
+    this.image.onerror = () => {
+      console.error('Error loading player image');
+    };
 
     document.addEventListener('keydown', this.keydown);
     document.addEventListener('keyup', this.keyup);
@@ -68,6 +73,16 @@ class Player {
       this.shootPressed = false;
     }
   };
+
+  collideWith(sprite) {
+    const collision =
+      this.x < sprite.x + sprite.width &&
+      this.x + this.width > sprite.x &&
+      this.y < sprite.y + sprite.height &&
+      this.y + this.height > sprite.y;
+
+    return collision;
+  }
 }
 
 export default Player;
