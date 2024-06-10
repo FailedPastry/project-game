@@ -3,6 +3,8 @@ const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
 
+require('dotenv').config();
+
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
@@ -13,6 +15,8 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
+
+
 
 // app.use(express.static(path.join(__dirname, '../client/dist')));
 
