@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_GAMES, GET_GAME } from '../utils/queries';
 import StarboyGame from './starboyGame';
+import InvadersGame from './invadersGame';
 
 const gameBox = () => {
 
@@ -25,7 +26,8 @@ const gameBox = () => {
         switch(path) {
             case './starboyGame.jsx':
                 return <StarboyGame />;
-            // add other cases here for other games
+            case './invadersGame.jsx':
+				return <InvadersGame />;
             default:
                 return null;
         }
