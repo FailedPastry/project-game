@@ -117,7 +117,7 @@ const Profile = () => {
 						</div>
 						{isMyProfile ? 
 							<div className="edit-game">
-								<Link to="/profile/upload_game/:gameId">Edit</Link>
+								<Link to={`/profile/edit_game/${game._id}`}>Edit</Link>
 								<button onClick={() => handleOpenModal(game._id)}>Delete</button>
 							</div> 
 							: null}

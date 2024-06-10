@@ -10,6 +10,7 @@ import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import Games from './pages/Games.jsx'
 import GameCreationPage from './pages/GameCreationPage.jsx'
+import GameEditPage from './pages/GameEditPage.jsx'
 import PlayGamePage from './pages/PlayGamePage.jsx'
 
 const router = createBrowserRouter([
@@ -51,8 +52,12 @@ const router = createBrowserRouter([
 		element: <GameCreationPage />
 	  },
 	  {
-		path: '/profile/upload_game/:gameId',
+		path: '/profile/upload_game',
 		element: <GameCreationPage />
+	  },
+	  {
+		path: '/profile/edit_game/:gameId',
+		element: <GameEditPage />
 	  },
 	  {
 		path: '/games/:gameId',
