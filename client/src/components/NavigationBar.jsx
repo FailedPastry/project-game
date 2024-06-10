@@ -15,7 +15,7 @@ const NavBar = () => {
 	return (
 		<nav className="navbar">
 			<div className="desktop-menu">
-				<Link to="/">Home</Link>
+				{/* <Link to="/">Home</Link> */}
 				<Link to="/games">Games</Link>
 				<Link to="/leaderboard">Leaderboards</Link>
 				{loggedIn ? <Link to="/profile">Profile</Link> : null}
