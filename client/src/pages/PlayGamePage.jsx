@@ -25,6 +25,12 @@ const PlayGamePage = () => {
 		color: 'red'
 	};
 
+	window.addEventListener('keydown', function(e) {
+		if(e.keyCode == 32 && e.target == document.body) {
+		  e.preventDefault();
+		}
+	  });
+
 	// const manager = nipplejs.create(options);
 
 	// manager.on('dir', (event, nipple) => {

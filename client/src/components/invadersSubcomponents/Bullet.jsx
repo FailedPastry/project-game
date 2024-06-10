@@ -21,7 +21,7 @@ class Bullet {
 						this.x + this.width > sprite.x &&
 						this.y < sprite.y + sprite.height &&
 						this.y + this.height > sprite.y;
-	  console.log('Bullet collision with sprite:', collision); // Debugging log
+	//   console.log('Bullet collision with sprite:', collision); // Debugging log
 	  return collision;
 	}
   }

@@ -11,7 +11,7 @@ class Player {
     this.width = 50;
     this.height = 48;
     this.image = new Image();
-    this.image.src = "/images/player.png"; // Ensure this path is correct
+    this.image.src = "/invadersAssets/images/player.png"; // Ensure this path is correct
     this.image.onload = () => {
       console.log('Player image loaded');
     };
@@ -22,7 +22,7 @@ class Player {
     document.addEventListener('keydown', this.keydown);
     document.addEventListener('keyup', this.keyup);
 
-    this.shootSound = new Audio('/sounds/shoot.wav');
+    this.shootSound = new Audio('/invadersAssets/sounds/shoot.wav');
     this.shootSound.volume = 0.1;
 
     this.rightPressed = false;

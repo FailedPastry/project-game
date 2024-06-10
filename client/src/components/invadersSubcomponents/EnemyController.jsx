@@ -26,7 +26,7 @@ class EnemyController {
     this.enemyBulletController = enemyBulletController;
     this.playerBulletController = playerBulletController;
 
-    this.enemyDeathSound = new Audio('/sounds/enemy-death.wav');
+    this.enemyDeathSound = new Audio('/invadersAssets/sounds/enemy-death.wav');
     this.enemyDeathSound.volume = 0.1;
 
     this.createEnemies(1); // Initialize with level 1 enemies

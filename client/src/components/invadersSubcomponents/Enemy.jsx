@@ -12,16 +12,16 @@ class Enemy {
     this.image = new Image();
     switch (type) {
       case 1:
-        this.image.src = '/images/enemy1.png';
+        this.image.src = '/invadersAssets/images/enemy1.png';
         break;
       case 2:
-        this.image.src = '/images/enemy2.png';
+        this.image.src = '/invadersAssets/images/enemy2.png';
         break;
       case 3:
-        this.image.src = '/images/enemy3.png';
+        this.image.src = '/invadersAssets/images/enemy3.png';
         break;
       default:
-        this.image.src = '/images/enemy1.png';
+        this.image.src = '/invadersAssets/images/enemy1.png';
     }
   }
 
