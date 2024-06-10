@@ -18,11 +18,11 @@ const server = new ApolloServer({
 
 
 
-// app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 const startApolloServer = async () => {
   await server.start();
@@ -32,9 +32,9 @@ const startApolloServer = async () => {
 
   server.applyMiddleware({ app, path: '/graphql' });
 
-//   if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(__dirname, '../client/dist')));
-//   }
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+  }
 
   db.once('open', () => {
     app.listen(PORT, () => {
