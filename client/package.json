@@ -10,6 +10,9 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@types/react": "^18.0.28",
+		"@types/react-dom": "^18.0.11",
+		"@vitejs/plugin-react": "^4.0.0",
 		"bootstrap": "^5.2.3",
 		"jwt-decode": "^4.0.0",
 		"nipplejs": "^0.10.2",
@@ -18,10 +21,8 @@
 		"react-dom": "^18.2.0",
 		"react-modal": "^3.16.1",
 		"react-router-dom": "^6.11.2",
-		"vite": "^4.5.3",
-		"@types/react": "^18.0.28",
-		"@types/react-dom": "^18.0.11",
-		"@vitejs/plugin-react": "^4.0.0"
+		"styled-components": "^6.1.11",
+		"vite": "^4.5.3"
 	},
 	"devDependencies": {
 		"eslint": "^8.38.0",
