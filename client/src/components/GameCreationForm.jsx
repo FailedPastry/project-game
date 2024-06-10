@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ADD_GAME } from '../utils/mutations';
 import { GET_USERS_BY_USERNAME } from '../utils/queries';
 
@@ -14,6 +14,8 @@ const GameCreationForm = () => {
 	const [controlsGuide, setControlsGuide] = React.useState('');
 	const [path, setPath] = React.useState('');
 	const [addGame] = useMutation(ADD_GAME);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setDevs(devsInput.split(',').map((dev) => dev.trim()));
@@ -35,33 +37,15 @@ const GameCreationForm = () => {
 		console.error(devsError);
 	}
 
-
-useEffect(() => {
-    if (devsData && devsData.devs) {
-        const newDevIds = devsData.devs.map((dev) => dev.id);
-        setDevIds(newDevIds);
-
-        // Perform the mutation here
-        try {
-            addGame({
-                variables: {
-                    title: gameTitle,
-                    description: description,
-                    controlsGuide: controlsGuide,
-                    bannerImg: bannerImg,
-                    path: path,
-                    devs: newDevIds,
-                },
-            });
-        } catch (e) {
-            console.error(e);
-        }
-    }
-}, [devsData]);
+	console.log('Devs map test:', devsData?.getUsersByUsername?.map((dev) => dev._id));
 
 	useEffect(() => {
-		console.log('DevIds after setting from the devs input:', devIds);
-	}, [devIds]);
+		if (devsData && devsData?.getUsersByUsername) {
+			const newDevIds = devsData?.getUsersByUsername?.map((dev) => dev._id);
+			setDevIds(newDevIds);
+			console.log('DevIds after setting from the devs data:', devIds);
+		}
+	}, [devsData]);
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
@@ -70,8 +54,7 @@ useEffect(() => {
 			return;
 		}
 
-		console.log('Devs before addGame or updateGame:', devs);
-		console.log('DevIds before addGame or updateGame:', devIds);
+		console.log('Submitting game:', gameTitle, description, controlsGuide, bannerImg, path, devIds);
 
 		try {
 			await addGame({
@@ -84,6 +67,8 @@ useEffect(() => {
 					devs: devIds,
 				},
 			});
+
+			navigate('/profile');
 		} catch (e) {
 			console.error(e);
 		}

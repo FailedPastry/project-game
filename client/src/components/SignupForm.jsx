@@ -20,7 +20,11 @@ const SignUpForm = () => {
 			const { data } = await signUp({
 				variables: { ...formState },
 			});
-			Auth.login(data.login.token);
+			if (data && data.addUser.token) {
+				Auth.login(data.addUser.token);
+			} else {
+				throw new Error('Sign Up failed');
+			}
 		} catch (e) {
 			console.error(e);
 			setErrorMessage('Sign Up failed');

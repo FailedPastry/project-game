@@ -134,6 +134,15 @@ const resolvers = {
 		addGame: async (parent, { title, description, controlsGuide, bannerImg, devs, path }) => {
 			const devUsers = await User.find({ _id: { $in: devs } });
 			const newGame = await Game.create({ title, description, controlsGuide, bannerImg, devs: devUsers.map(user => user._id), path});
+
+			// Update the games field in the User documents
+			for (let userId of devs) {
+				const updatedUser = await User.findByIdAndUpdate(
+					userId,
+					{ $push: { games: newGame._id } },
+					{ new: true }
+				);
+			}
 		  
 			// Populate the devs field with user data before returning the game
 			const populatedGame = await Game.findById(newGame._id).populate('devs').exec();
