@@ -4,7 +4,7 @@
 
 Game Invaders is a simple site to play fun arcade games on.
 
-<img src="public/assets/images/portfolio_screenshot.png"/>
+<img src="client/public/img/game-invaders-screenshot.png"/>
 
 <a href="https://game-invaders2-7cffceb5a29e.herokuapp.com/">Link</a>
 
